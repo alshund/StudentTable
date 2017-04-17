@@ -5,7 +5,7 @@ import java.awt.*;
 /**
  * Created by shund on 11.04.2017.
  */
-public class TableView extends JComponent {
+public class TableView extends JPanel {
     private TableArea tableArea;
     private TablePanel tablePanel;
 

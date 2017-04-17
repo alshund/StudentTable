@@ -1,42 +1,31 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Created by shund on 10.04.2017.
  */
-public class TableArea extends JComponent {
+public class TableArea extends JTable {
     private TableModel tableModel;
+    private List<Student> students;
+    private int pageNumber;
 
     public TableArea(TableModel tableModel) {
+        super(tableModel);
         this.tableModel = tableModel;
-        setLayout(new BorderLayout());
-        add(addTableArea(), BorderLayout.NORTH);
+        students = new ArrayList<Student>();
     }
 
-    private JPanel addTableArea() {
-        JPanel table = new JPanel();
-        table.setLayout(new GridBagLayout());
-        addComponent(table, "ФИО студента", 0, 0, 1, 1);
-        addComponent(table, "ФИО отца", 1, 0, 1, 1);
-        addComponent(table, "Зарплата отца", 2, 0, 1, 1);
-        addComponent(table, "ФИО матери", 3, 0, 1, 1);
-        addComponent(table, "Зарплата матери", 4, 0, 1, 1);
-        addComponent(table, "Число братьев", 5, 0, 1, 1);
-        addComponent(table, "Число сестер", 6, 0, 1, 1);
-        return table;
+    public void addStudent(Student student) {
+        students.add(student);
+        TableModel tableModel = new TableModel(students);
+        this.setModel(tableModel);
     }
 
-    private void addComponent(JPanel container, String name, int gridx, int gridy, int gridwidth, int gridheight){
-        JLabel label = new JLabel(name);
-        label.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
-        label.setHorizontalAlignment(JLabel.CENTER);
-        Insets insets = new Insets(0, 0, 0, 0);
-        GridBagConstraints gbc = new GridBagConstraints(gridx, gridy, gridwidth, gridheight, 1.0, 1.0,
-                                                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                                        insets, 0, 0);
-        container.add(label, gbc);
+    public void goToPage(int newPageNumber) {
+        int listPosition = (pageNumber - 1);
     }
-
 
 
 }

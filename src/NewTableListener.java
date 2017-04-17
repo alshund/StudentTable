@@ -10,7 +10,8 @@ import java.util.ArrayList;
 public class NewTableListener implements ActionListener {
     JToolBar toolBar;
     TableView tableView;
-    public NewTableListener(JToolBar toolBar, TableView tableView){
+
+    public NewTableListener(JToolBar toolBar, TableView tableView) {
         this.toolBar = toolBar;
         this.tableView = tableView;
     }
@@ -18,12 +19,13 @@ public class NewTableListener implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent event) {
         toolBar.setVisible(true);
-        TableModel tableModel = new TableModel();
+        TableModel tableModel = new TableModel(new ArrayList<Student>());
         TableArea tableArea = new TableArea(tableModel);
         TablePanel tablePanel = new TablePanel(tableArea);
         tableView.setTableArea(tableArea);
         tableView.setTablePanel(tablePanel);
-        tableView.add(tableArea, BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(tableArea);
+        tableView.add(scrollPane, BorderLayout.CENTER);
         tableView.add(tablePanel, BorderLayout.SOUTH);
     }
 }

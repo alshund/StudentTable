@@ -22,7 +22,8 @@ public class MainWindow {
 
     public MainWindow() {
         mainFrame = new JFrame("Состав семьи студентов");
-        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+//        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        mainFrame.setSize(600, 600);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setLayout(new BorderLayout());
 

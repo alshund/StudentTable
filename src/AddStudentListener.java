@@ -8,27 +8,28 @@ import java.awt.event.ActionListener;
  */
 public class AddStudentListener implements ActionListener {
     private JFrame mainFrame;
-    private TableArea tableArea;
-    private JDialog addStudentDialogFrame;
+    private TableView tableView;
+    private StudentDataBase studentDataBase;
 
     public AddStudentListener(JFrame mainFrame, TableView tableView) {
         this.mainFrame = mainFrame;
-        this.tableArea = tableView.getTableArea();
+        this.tableView = tableView;
+        studentDataBase = new StudentDataBase();
     }
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        addDialog();
-        AddStudentDialogPanel addStudentDialogPanel = new AddStudentDialogPanel(tableArea);
-        addStudentDialogFrame.add(addStudentDialogPanel, BorderLayout.NORTH);
-        addStudentDialogFrame.setResizable(false);
+        AdditionStudentDialog additionStudentDialog = new AdditionStudentDialog(mainFrame, tableView, studentDataBase);
     }
 
-    private void addDialog() {
-        addStudentDialogFrame = new JDialog(mainFrame, "Add new student", false);
-        addStudentDialogFrame.setSize(600, 328);
-        addStudentDialogFrame.setLayout(new BorderLayout());
-        addStudentDialogFrame.setLocationRelativeTo(tableArea);
-        addStudentDialogFrame.setVisible(true);
-    }
+
+//    private void addDialogComponents() {
+//        JButton addStudentDialogButton = new JButton("Confirm");
+//        lConfirmAddition confirmAddition = new lConfirmAddition(additionStudentDialogPanel, tableView, studentDataBase);
+//        addStudentDialogButton.addActionListener(confirmAddition);
+//        addStudentDialog.add(additionStudentDialogPanel, BorderLayout.CENTER);
+//        addStudentDialog.add(addStudentDialogButton, BorderLayout.SOUTH);
+//        addStudentDialog.setResizable(false);
+//
+//    }
 }
