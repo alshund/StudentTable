@@ -10,8 +10,6 @@ public class TableModel extends AbstractTableModel {
     private final int COLUMN_COUNT = 7;
 
     private List<Student> students;
-    private int recordsNumber;
-    private int currentPage;
 
     public TableModel(List<Student> students) {
         this.students = students;
@@ -43,21 +41,5 @@ public class TableModel extends AbstractTableModel {
                 "Количество братьев",
                 "Количество сестер"};
         return columnName[column];
-    }
-
-    public int getRecordsNumber() {
-        return recordsNumber;
-    }
-
-    public void setRecordsNumber(int recordsNumber) {
-        this.recordsNumber = recordsNumber;
-    }
-
-    public int getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
     }
 }

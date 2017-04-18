@@ -1,12 +1,8 @@
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.List;
+import java.util.regex.Pattern;
 
 
 /**
@@ -14,7 +10,7 @@ import java.util.List;
  */
 public class AdditionStudentDialog {
     private JDialog additionStudentDialog;
-    private TableView tableView;
+    private TableWithPaging tableWithPaging;
 
 
     private JTextField tfStudentSurname;
@@ -32,12 +28,12 @@ public class AdditionStudentDialog {
     private JSpinner spSistersNumber;
 
 
-    public AdditionStudentDialog(JFrame mainFrame, TableView tableView, StudentDataBase studentDataBase) {
+    public AdditionStudentDialog(JFrame mainFrame, TableWithPaging tableWithPaging) {
         additionStudentDialog = new JDialog(mainFrame, "Student addition", true);
         additionStudentDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         additionStudentDialog.setSize(600, 350);
         additionStudentDialog.setLayout(new BorderLayout());
-        additionStudentDialog.setLocationRelativeTo(tableView);
+        additionStudentDialog.setLocationRelativeTo(tableWithPaging);
 
         JPanel dialogPanel = new JPanel();
         dialogPanel.setLayout(new GridBagLayout());
@@ -133,8 +129,11 @@ public class AdditionStudentDialog {
         btAdditionStudent.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                studentDataBase.addStudent(readStudent());
-                additionStudentDialog.dispose();
+                if (isValid()) {
+                    tableWithPaging.getStudentDataBase().addStudent(readStudent());
+                    tableWithPaging.updateTable();
+                    additionStudentDialog.dispose();
+                }
             }
         });
         addComponent(dialogPanel, btAdditionStudent, 0, 8, 4, 1);
@@ -143,11 +142,11 @@ public class AdditionStudentDialog {
         additionStudentDialog.setVisible(true);
     }
 
-    private void addComponent(JComponent container, JComponent component, int gridX, int gridY, int gridWidth, int gridHeight){
+    private void addComponent(JComponent container, JComponent component, int gridX, int gridY, int gridWidth, int gridHeight) {
         Insets insets = new Insets(5, 5, 5, 5);
         GridBagConstraints gbc = new GridBagConstraints(gridX, gridY, gridWidth, gridHeight, 1.0, 1.0,
-                                                        GridBagConstraints.CENTER, GridBagConstraints.BOTH,
-                                                        insets, 0, 0);
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                insets, 0, 0);
         container.add(component, gbc);
     }
 
@@ -165,11 +164,57 @@ public class AdditionStudentDialog {
 
     private Father readStudentFather() {
         return new Father(tfFatherSurname.getText(), tfFatherFirstName.getText(), tfFatherPatronymic.getText(),
-                            (Double) spFatherSalary.getValue());
+                (Double) spFatherSalary.getValue());
     }
 
     private Mother readStudentMother() {
         return new Mother(tfMotherSurname.getText(), tfMotherFirstName.getText(), tfMotherPatronymic.getText(),
                 (Double) spMotherSalary.getValue());
+    }
+
+    private boolean isValid() {
+        boolean isValid = true;
+        Pattern nameField = Pattern.compile("([A-Z])[a-z]+");
+        if (!nameField.matcher(tfStudentSurname.getText()).matches()) {
+            isValid = false;
+            showMassage(tfStudentSurname, "Student surname");
+        } else if (!nameField.matcher(tfStudentFirstName.getText()).matches()) {
+            isValid = false;
+            showMassage(tfStudentFirstName, "Student first name");
+        } else if (!nameField.matcher(tfStudentPatronymic.getText()).matches()) {
+            isValid = false;
+            showMassage(tfStudentPatronymic, "Student patronymic");
+        } else if (!nameField.matcher(tfMotherSurname.getText()).matches()) {
+            isValid = false;
+            showMassage(tfMotherSurname, "Mother surname");
+        } else if (!nameField.matcher(tfMotherFirstName.getText()).matches()) {
+            isValid = false;
+            showMassage(tfMotherFirstName, "Mother first name");
+        } else if (!nameField.matcher(tfMotherPatronymic.getText()).matches()) {
+            isValid = false;
+            showMassage(tfMotherPatronymic, "Mother patronymic");
+        } else if (!nameField.matcher(tfFatherSurname.getText()).matches()) {
+            isValid = false;
+            showMassage(tfFatherSurname, "Father surname");
+        } else if (!nameField.matcher(tfFatherFirstName.getText()).matches()) {
+            isValid = false;
+            showMassage(tfFatherFirstName, "Father first name");
+        } else if (!nameField.matcher(tfFatherPatronymic.getText()).matches()) {
+            isValid = false;
+            showMassage(tfFatherPatronymic, "Father patronymic");
+        }
+        return isValid;
+    }
+
+    private void showMassage(JTextField textField, String mistakeName) {
+        JOptionPane.showMessageDialog(additionStudentDialog, mistakeName + " was incorrectly entered!");
+        textField.setText("");
+        textField.requestFocus();
+    }
+
+    private void showMassage(JSpinner textField, String mistakeName) {
+        JOptionPane.showMessageDialog(additionStudentDialog, mistakeName + " was incorrectly entered!");
+        textField.setValue("");
+        textField.requestFocus();
     }
 }

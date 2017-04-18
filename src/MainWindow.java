@@ -8,17 +8,17 @@ public class MainWindow {
     private JFrame mainFrame;
     private JMenuBar menuBar;
     private JToolBar toolBar;
-    private TableView tableView;
+    private TableWithPaging tableWithPaging;
 
-    private final int FILE_MENU = 0;
-    private final int EDIT_MENU = 1;
-    private final int NEW_FILE = 0;
-    private final int OPEN_FIE = 1;
-    private final int SAVE_FILE = 2;
-    private final int EXIT_FILE = 3;
-    private final int ADD_EDIT = 0;
-    private final int SEARCH_EDIT = 1;
-    private final int DELETE_EDIT = 2;
+    static public final int FILE_MENU = 0;
+    static public final int EDIT_MENU = 1;
+    static public final int NEW_FILE = 0;
+    static public final int OPEN_FIE = 1;
+    static public final int SAVE_FILE = 2;
+    static public final int EXIT_FILE = 3;
+    static public final int ADD_EDIT = 0;
+    static public final int SEARCH_EDIT = 1;
+    static public final int DELETE_EDIT = 2;
 
     public MainWindow() {
         mainFrame = new JFrame("Состав семьи студентов");
@@ -32,9 +32,6 @@ public class MainWindow {
 
         toolBar = addJToolBar();
         mainFrame.add(toolBar, BorderLayout.NORTH);
-
-        tableView = new TableView();
-        mainFrame.add(tableView, BorderLayout.CENTER);
 
         addListener();
 
@@ -100,10 +97,8 @@ public class MainWindow {
     }
 
     private void addListener(){
-        NewTableListener newTableListener = new NewTableListener(toolBar, tableView);
+        NewTableListener newTableListener = new NewTableListener(mainFrame, menuBar, toolBar);
         menuBar.getMenu(FILE_MENU).getItem(NEW_FILE).addActionListener(newTableListener);
-        AddStudentListener addStudentListener = new AddStudentListener(mainFrame, tableView);
-        menuBar.getMenu(EDIT_MENU).getItem(ADD_EDIT).addActionListener(addStudentListener);
     }
 
     public static void main(String[] arg) {

@@ -15,6 +15,19 @@ public class StudentDataBase {
         students.add(student);
     }
 
+    public List<Student> getPage(int currentPage, int recodesNumber) {
+        List<Student> page = new ArrayList<Student>();
+        int beginIndex = (currentPage - 1) * (recodesNumber);
+        int endIndex = beginIndex + (recodesNumber);
+        for (int studentIndex = beginIndex; studentIndex < endIndex; studentIndex++) {
+            if (studentIndex >= students.size()){
+                break;
+            }
+            page.add(students.get(studentIndex));
+        }
+        return page;
+    }
+
     public List<Student> getStudents() {
         return students;
     }

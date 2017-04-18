@@ -9,8 +9,8 @@ public class Student {
     private String surname;
     private Mother mother;
     private Father father;
-    private double numberOfBrothers;
-    private double numberOfSisters;
+    private int numberOfBrothers;
+    private int numberOfSisters;
 
     public Student() {
 

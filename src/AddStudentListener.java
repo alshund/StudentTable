@@ -1,5 +1,4 @@
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -8,24 +7,23 @@ import java.awt.event.ActionListener;
  */
 public class AddStudentListener implements ActionListener {
     private JFrame mainFrame;
-    private TableView tableView;
+    private TableWithPaging tableWithPaging;
     private StudentDataBase studentDataBase;
 
-    public AddStudentListener(JFrame mainFrame, TableView tableView) {
+    public AddStudentListener(JFrame mainFrame, TableWithPaging tableWithPaging) {
         this.mainFrame = mainFrame;
-        this.tableView = tableView;
-        studentDataBase = new StudentDataBase();
+        this.tableWithPaging = tableWithPaging;
     }
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        AdditionStudentDialog additionStudentDialog = new AdditionStudentDialog(mainFrame, tableView, studentDataBase);
+        AdditionStudentDialog additionStudentDialog = new AdditionStudentDialog(mainFrame, tableWithPaging);
     }
 
 
 //    private void addDialogComponents() {
 //        JButton addStudentDialogButton = new JButton("Confirm");
-//        lConfirmAddition confirmAddition = new lConfirmAddition(additionStudentDialogPanel, tableView, studentDataBase);
+//        lConfirmAddition confirmAddition = new lConfirmAddition(additionStudentDialogPanel, tableWithPaging, studentDataBase);
 //        addStudentDialogButton.addActionListener(confirmAddition);
 //        addStudentDialog.add(additionStudentDialogPanel, BorderLayout.CENTER);
 //        addStudentDialog.add(addStudentDialogButton, BorderLayout.SOUTH);
