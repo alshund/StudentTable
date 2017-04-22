@@ -7,7 +7,7 @@ import java.util.List;
  * Created by shund on 09.04.2017.
  */
 public class TableModel extends AbstractTableModel {
-    private final int COLUMN_COUNT = 7;
+    static public final int COLUMN_COUNT = 7;
 
     private List<Student> students;
 
@@ -32,6 +32,12 @@ public class TableModel extends AbstractTableModel {
     }
 
     @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        Student student = students.get(rowIndex);
+        student.setField(columnIndex, aValue);
+    }
+
+    @Override
     public String getColumnName(int column) {
         String columnName[] = {"ФИО студента",
                 "ФИО отца",
@@ -41,5 +47,13 @@ public class TableModel extends AbstractTableModel {
                 "Количество братьев",
                 "Количество сестер"};
         return columnName[column];
+    }
+
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
     }
 }

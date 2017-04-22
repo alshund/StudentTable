@@ -39,6 +39,30 @@ public class Student {
         }
     }
 
+    public void setField (int columnIndex, Object aValue) {
+        if (columnIndex == 0) {
+            setSurname((String) aValue);
+            setFirstName((String) aValue);
+            setMiddleName((String) aValue);
+        } else if (columnIndex == 1) {
+            father.setSurname((String) aValue);
+            father.setFirstName((String) aValue);
+            father.setMiddleName((String) aValue);
+        } else if (columnIndex == 2) {
+            father.setSalary((Double) aValue);
+        } else if (columnIndex == 3) {
+            mother.setSurname((String) aValue);
+            mother.setFirstName((String) aValue);
+            mother.setMiddleName((String) aValue);
+        } else if (columnIndex == 4) {
+            mother.setSalary((Double) aValue);
+        } else if (columnIndex == 5) {
+            setNumberOfBrothers((Integer) aValue);
+        } else if (columnIndex == 6) {
+            setNumberOfBrothers((Integer) aValue);
+        }
+    }
+
     public String getFirstName() {
         return firstName;
     }
@@ -79,7 +103,7 @@ public class Student {
         this.father = father;
     }
 
-    public double getNumberOfBrothers() {
+    public int getNumberOfBrothers() {
         return numberOfBrothers;
     }
 
@@ -87,7 +111,7 @@ public class Student {
         this.numberOfBrothers = numberOfBrothers;
     }
 
-    public double getNumberOfSisters() {
+    public int getNumberOfSisters() {
         return numberOfSisters;
     }
 

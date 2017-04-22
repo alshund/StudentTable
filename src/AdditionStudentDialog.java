@@ -12,7 +12,6 @@ public class AdditionStudentDialog {
     private JDialog additionStudentDialog;
     private TableWithPaging tableWithPaging;
 
-
     private JTextField tfStudentSurname;
     private JTextField tfStudentFirstName;
     private JTextField tfStudentPatronymic;
@@ -27,7 +26,6 @@ public class AdditionStudentDialog {
     private JSpinner spBrothersNumber;
     private JSpinner spSistersNumber;
 
-
     public AdditionStudentDialog(JFrame mainFrame, TableWithPaging tableWithPaging) {
         additionStudentDialog = new JDialog(mainFrame, "Student addition", true);
         additionStudentDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -41,55 +39,55 @@ public class AdditionStudentDialog {
         JLabel lbStudentSurname = new JLabel("Student surname");
         lbStudentSurname.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbStudentSurname, 0, 0, 2, 1);
-        tfStudentSurname = new JTextField();
+        tfStudentSurname = new JTextField("Ass");
         addComponent(dialogPanel, tfStudentSurname, 2, 0, 2, 1);
 
         JLabel lbStudentFirstName = new JLabel("Student first name");
         lbStudentFirstName.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbStudentFirstName, 0, 1, 2, 1);
-        tfStudentFirstName = new JTextField();
+        tfStudentFirstName = new JTextField("Ass");
         addComponent(dialogPanel, tfStudentFirstName, 2, 1, 2, 1);
 
         JLabel lbStudentPatronymic = new JLabel("Student patronymic");
         lbStudentPatronymic.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbStudentPatronymic, 0, 2, 2, 1);
-        tfStudentPatronymic = new JTextField();
+        tfStudentPatronymic = new JTextField("Ass");
         addComponent(dialogPanel, tfStudentPatronymic, 2, 2, 2, 1);
 
         JLabel lbMotherSurname = new JLabel("Mother surname");
         lbMotherSurname.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbMotherSurname, 0, 3, 1, 1);
-        tfMotherSurname = new JTextField();
+        tfMotherSurname = new JTextField("Ass");
         addComponent(dialogPanel, tfMotherSurname, 1, 3, 1, 1);
 
         JLabel lbFatherSurname = new JLabel("Father surname");
         lbFatherSurname.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbFatherSurname, 2, 3, 1, 1);
-        tfFatherSurname = new JTextField();
+        tfFatherSurname = new JTextField("Ass");
         addComponent(dialogPanel, tfFatherSurname, 3, 3, 1, 1);
 
         JLabel lbMotherFirstName = new JLabel("Mother first name");
         lbMotherFirstName.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbMotherFirstName, 0, 4, 1, 1);
-        tfMotherFirstName = new JTextField();
+        tfMotherFirstName = new JTextField("Ass");
         addComponent(dialogPanel, tfMotherFirstName, 1, 4, 1, 1);
 
         JLabel lbFatherFirstName = new JLabel("Father first name");
         lbFatherFirstName.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbFatherFirstName, 2, 4, 1, 1);
-        tfFatherFirstName = new JTextField();
+        tfFatherFirstName = new JTextField("Ass");
         addComponent(dialogPanel, tfFatherFirstName, 3, 4, 1, 1);
 
         JLabel lbMotherPatronymic = new JLabel("Mother patronymic");
         lbMotherPatronymic.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbMotherPatronymic, 0, 5, 1, 1);
-        tfMotherPatronymic = new JTextField();
+        tfMotherPatronymic = new JTextField("Ass");
         addComponent(dialogPanel, tfMotherPatronymic, 1, 5, 1, 1);
 
         JLabel lbFatherPatronymic = new JLabel("Father patronymic");
         lbFatherPatronymic.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbFatherPatronymic, 2, 5, 1, 1);
-        tfFatherPatronymic = new JTextField();
+        tfFatherPatronymic = new JTextField("Ass");
         addComponent(dialogPanel, tfFatherPatronymic, 3, 5, 1, 1);
 
         SpinnerNumberModel spmMotherSalary = new SpinnerNumberModel(0.0, 0.0, null, 0.1);
@@ -115,7 +113,6 @@ public class AdditionStudentDialog {
         spSistersNumber = new JSpinner();
         spSistersNumber.setModel(spmSistersNumber);
         addComponent(dialogPanel, spSistersNumber, 1, 7, 1, 1);
-
 
         SpinnerNumberModel spmBrothersNumber = new SpinnerNumberModel(0, 0, null, 1);
         JLabel lbBrothersNumber = new JLabel("Brothers number");
@@ -209,12 +206,6 @@ public class AdditionStudentDialog {
     private void showMassage(JTextField textField, String mistakeName) {
         JOptionPane.showMessageDialog(additionStudentDialog, mistakeName + " was incorrectly entered!");
         textField.setText("");
-        textField.requestFocus();
-    }
-
-    private void showMassage(JSpinner textField, String mistakeName) {
-        JOptionPane.showMessageDialog(additionStudentDialog, mistakeName + " was incorrectly entered!");
-        textField.setValue("");
         textField.requestFocus();
     }
 }

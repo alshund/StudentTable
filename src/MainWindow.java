@@ -33,6 +33,9 @@ public class MainWindow {
         toolBar = addJToolBar();
         mainFrame.add(toolBar, BorderLayout.NORTH);
 
+        tableWithPaging = new TableWithPaging();
+        mainFrame.add(tableWithPaging, BorderLayout.CENTER);
+
         addListener();
 
         mainFrame.setVisible(true);
@@ -97,8 +100,14 @@ public class MainWindow {
     }
 
     private void addListener(){
-        NewTableListener newTableListener = new NewTableListener(mainFrame, menuBar, toolBar);
+        NewTableListener newTableListener = new NewTableListener(toolBar, tableWithPaging);
         menuBar.getMenu(FILE_MENU).getItem(NEW_FILE).addActionListener(newTableListener);
+
+        AdditionStudentListener additionStudentListener = new AdditionStudentListener(mainFrame, tableWithPaging);
+        menuBar.getMenu(MainWindow.EDIT_MENU).getItem(MainWindow.ADD_EDIT).addActionListener(additionStudentListener);
+
+        SearchStudentListener searchStudentListener = new SearchStudentListener(mainFrame, tableWithPaging);
+        menuBar.getMenu(MainWindow.EDIT_MENU).getItem(MainWindow.SEARCH_EDIT).addActionListener(searchStudentListener);
     }
 
     public static void main(String[] arg) {
