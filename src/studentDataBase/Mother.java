@@ -16,6 +16,10 @@ public class Mother {
         this.salary = salary;
     }
 
+    public Mother(){
+
+    }
+
     public String getFirstName() {
         return firstName;
     }

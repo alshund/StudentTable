@@ -135,7 +135,7 @@ public class TableWithPaging extends JComponent {
 
     public void updateTable() {
         if (isNewPage()) {
-            setPagesNumber(++pagesNumber);
+            setPagesNumber((int) Math.ceil((double) studentDataBase.getStudents().size() / recodesNumber));
             setCurrentPage(pagesNumber);
         }
         List<Student> page = studentDataBase.getPage(currentPage, recodesNumber);

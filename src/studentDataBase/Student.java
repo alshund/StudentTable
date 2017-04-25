@@ -13,7 +13,8 @@ public class Student {
     private int sistersAMount;
 
     public Student() {
-
+        father = new Father();
+        mother = new Mother();
     }
 
     public Object getField(int columnIndex) {

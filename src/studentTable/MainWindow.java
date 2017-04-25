@@ -1,9 +1,6 @@
 package studentTable;
 
-import tableController.AdditionStudentListener;
-import tableController.DeleteStudentListener;
-import tableController.NewTableListener;
-import tableController.SearchStudentListener;
+import tableController.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -109,6 +106,12 @@ public class MainWindow {
     private void addListener(){
         NewTableListener newTableListener = new NewTableListener(toolBar, tableWithPaging);
         menuBar.getMenu(FILE_MENU).getItem(NEW_FILE).addActionListener(newTableListener);
+
+        OpenListener openListener = new OpenListener(tableWithPaging);
+        menuBar.getMenu(FILE_MENU).getItem(OPEN_FIE).addActionListener(openListener);
+
+        SaveListener saveListener = new SaveListener(tableWithPaging);
+        menuBar.getMenu(FILE_MENU).getItem(SAVE_FILE).addActionListener(saveListener);
 
         AdditionStudentListener additionStudentListener = new AdditionStudentListener(mainFrame, tableWithPaging);
         menuBar.getMenu(MainWindow.EDIT_MENU).getItem(MainWindow.ADD_EDIT).addActionListener(additionStudentListener);
