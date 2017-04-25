@@ -40,7 +40,7 @@ public class Student {
         }
     }
 
-    public void setField (int columnIndex, Object aValue) {
+    public void setField(int columnIndex, Object aValue) {
         if (columnIndex == 0) {
             setSurname((String) aValue);
             setFirstName((String) aValue);
