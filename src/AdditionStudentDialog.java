@@ -151,11 +151,11 @@ public class AdditionStudentDialog {
         Student currentStudent = new Student();
         currentStudent.setSurname(tfStudentSurname.getText());
         currentStudent.setFirstName(tfStudentFirstName.getText());
-        currentStudent.setMiddleName(tfStudentPatronymic.getText());
+        currentStudent.setPatronymic(tfStudentPatronymic.getText());
         currentStudent.setFather(readStudentFather());
         currentStudent.setMother(readStudentMother());
-        currentStudent.setNumberOfBrothers((Integer) spBrothersNumber.getValue());
-        currentStudent.setNumberOfSisters((Integer) spSistersNumber.getValue());
+        currentStudent.setBrothersAmount((Integer) spBrothersNumber.getValue());
+        currentStudent.setSistersAmount((Integer) spSistersNumber.getValue());
         return currentStudent;
     }
 

@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 public class AdditionStudentListener implements ActionListener {
     private JFrame mainFrame;
     private TableWithPaging tableWithPaging;
+    AdditionStudentDialog additionStudentDialog;
 
     public AdditionStudentListener(JFrame mainFrame, TableWithPaging tableWithPaging) {
         this.mainFrame = mainFrame;
@@ -16,6 +17,6 @@ public class AdditionStudentListener implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        AdditionStudentDialog additionStudentDialog = new AdditionStudentDialog(mainFrame, tableWithPaging);
+        additionStudentDialog = new AdditionStudentDialog(mainFrame, tableWithPaging);
     }
 }

@@ -1,16 +1,14 @@
-import java.util.Objects;
-
 /**
  * Created by shund on 09.04.2017.
  */
 public class Student {
     private String firstName;
-    private String middleName;
+    private String patronymic;
     private String surname;
     private Mother mother;
     private Father father;
-    private int numberOfBrothers;
-    private int numberOfSisters;
+    private int brothersAmount;
+    private int sistersAMount;
 
     public Student() {
 
@@ -18,7 +16,7 @@ public class Student {
 
     public Object getField(int columnIndex) {
         if (columnIndex == 0) {
-            String studentFullName = surname + " " + firstName + " " + middleName;
+            String studentFullName = surname + " " + firstName + " " + patronymic;
             return studentFullName;
         } else if (columnIndex == 1) {
             String fatherFullName = father.getSurname() + " " + father.getFirstName() + " " + father.getMiddleName();
@@ -31,9 +29,9 @@ public class Student {
         } else if (columnIndex == 4) {
             return mother.getSalary();
         } else if (columnIndex == 5) {
-            return numberOfBrothers;
+            return brothersAmount;
         } else if (columnIndex == 6) {
-            return numberOfSisters;
+            return sistersAMount;
         } else {
             return null;
         }
@@ -43,7 +41,7 @@ public class Student {
         if (columnIndex == 0) {
             setSurname((String) aValue);
             setFirstName((String) aValue);
-            setMiddleName((String) aValue);
+            setPatronymic((String) aValue);
         } else if (columnIndex == 1) {
             father.setSurname((String) aValue);
             father.setFirstName((String) aValue);
@@ -57,9 +55,9 @@ public class Student {
         } else if (columnIndex == 4) {
             mother.setSalary((Double) aValue);
         } else if (columnIndex == 5) {
-            setNumberOfBrothers((Integer) aValue);
+            setBrothersAmount((Integer) aValue);
         } else if (columnIndex == 6) {
-            setNumberOfBrothers((Integer) aValue);
+            setBrothersAmount((Integer) aValue);
         }
     }
 
@@ -71,12 +69,12 @@ public class Student {
         this.firstName = firstName;
     }
 
-    public String getMiddleName() {
-        return middleName;
+    public String getPatronymic() {
+        return patronymic;
     }
 
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
     }
 
     public String getSurname() {
@@ -103,19 +101,19 @@ public class Student {
         this.father = father;
     }
 
-    public int getNumberOfBrothers() {
-        return numberOfBrothers;
+    public int getBrothersAmount() {
+        return brothersAmount;
     }
 
-    public void setNumberOfBrothers(int numberOfBrothers) {
-        this.numberOfBrothers = numberOfBrothers;
+    public void setBrothersAmount(int numberOfBrothers) {
+        this.brothersAmount = numberOfBrothers;
     }
 
-    public int getNumberOfSisters() {
-        return numberOfSisters;
+    public int getSistersAmount() {
+        return sistersAMount;
     }
 
-    public void setNumberOfSisters(int numberOfSisters) {
-        this.numberOfSisters = numberOfSisters;
+    public void setSistersAmount(int numberOfSisters) {
+        this.sistersAMount = numberOfSisters;
     }
 }
