@@ -1,3 +1,8 @@
+package tableController;
+
+import studentTable.SearchStudentDialog;
+import studentTable.TableWithPaging;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -6,8 +11,8 @@ import java.awt.event.ActionListener;
  * Created by shund on 20.04.2017.
  */
 public class SearchStudentListener implements ActionListener {
-    JFrame mainFrame;
-    TableWithPaging tableWithPaging;
+    private JFrame mainFrame;
+    private TableWithPaging tableWithPaging;
 
     public SearchStudentListener(JFrame mainFrame, TableWithPaging tableWithPaging){
         this.mainFrame = mainFrame;

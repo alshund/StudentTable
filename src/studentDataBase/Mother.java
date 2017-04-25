@@ -1,15 +1,17 @@
+package studentDataBase;
+
 /**
  * Created by shund on 09.04.2017.
  */
 public class Mother {
     private String firstName;
-    private String middleName;
+    private String patronymic;
     private String surname;
     private double salary;
 
     public Mother(String firstName, String middleName, String surname, double salary) {
         this.firstName = firstName;
-        this.middleName = middleName;
+        this.patronymic = middleName;
         this.surname = surname;
         this.salary = salary;
     }
@@ -22,12 +24,12 @@ public class Mother {
         this.firstName = firstName;
     }
 
-    public String getMiddleName() {
-        return middleName;
+    public String getPatronymic() {
+        return patronymic;
     }
 
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
+    public void setPatronymic(String patronymic) {
+        this.patronymic = patronymic;
     }
 
     public String getSurname() {

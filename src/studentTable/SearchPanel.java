@@ -1,3 +1,5 @@
+package studentTable;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -357,7 +359,7 @@ public class SearchPanel {
 
         SpinnerNumberModel spmBrStAmount = new SpinnerNumberModel(0, 0, null, 1);
         JSpinner spSiblingAmount = new JSpinner(spmBrStAmount);
-        spSiblingAmount.setName("BrStAmount");
+        spSiblingAmount.setName("Sibling Amount");
         spSiblingAmount.setEnabled(false);
         inputFieldList.add(spSiblingAmount);
         addComponent(siblingPanel, spSiblingAmount, 1, 1, 2, 1);
@@ -366,7 +368,7 @@ public class SearchPanel {
             @Override
             public void actionPerformed(ActionEvent event) {
                 for (JComponent component : inputFieldList) {
-                    if (component.getName().equals("BrStAmount")) {
+                    if (component.getName().equals("Sibling Amount")) {
                         component.setEnabled(true);
                     } else {
                         int checkBoxPosition = inputFieldList.indexOf(component);
@@ -381,15 +383,37 @@ public class SearchPanel {
             }
         });
 
+        rbBrotherNumber.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent event) {
+                if (rbBrotherNumber.isSelected()) {
+                    spSiblingAmount.setEnabled(true);
+                } else {
+                    spSiblingAmount.setEnabled(false);
+                }
+            }
+        });
+
         rbSisterNumber.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 for (JComponent component : inputFieldList) {
-                    if (component.getName().equals("BrStAmount")) {
+                    if (component.getName().equals("Sibling Amount")) {
                         component.setEnabled(true);
                     } else {
                         component.setEnabled(false);
                     }
+                }
+            }
+        });
+
+        rbSisterNumber.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent event) {
+                if(rbSisterNumber.isSelected()) {
+                    spSiblingAmount.setEnabled(true);
+                } else {
+                    spSiblingAmount.setEnabled(false);
                 }
             }
         });

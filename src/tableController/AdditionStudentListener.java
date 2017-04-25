@@ -1,3 +1,8 @@
+package tableController;
+
+import studentTable.AdditionStudentDialog;
+import studentTable.TableWithPaging;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,7 +17,7 @@ public class AdditionStudentListener implements ActionListener {
 
     public AdditionStudentListener(JFrame mainFrame, TableWithPaging tableWithPaging) {
         this.mainFrame = mainFrame;
-        this.tableWithPaging = tableWithPaging;
+        this.tableWithPaging = tableWithPaging;;
     }
 
     @Override

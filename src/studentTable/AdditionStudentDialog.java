@@ -1,3 +1,9 @@
+package studentTable;
+
+import studentDataBase.Father;
+import studentDataBase.Mother;
+import studentDataBase.Student;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

@@ -1,6 +1,8 @@
+package studentTable;
+
+import studentDataBase.Student;
+
 import javax.swing.table.AbstractTableModel;
-import javax.swing.table.DefaultTableModel;
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -1,3 +1,10 @@
+package studentTable;
+
+import tableController.AdditionStudentListener;
+import tableController.DeleteStudentListener;
+import tableController.NewTableListener;
+import tableController.SearchStudentListener;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -108,6 +115,9 @@ public class MainWindow {
 
         SearchStudentListener searchStudentListener = new SearchStudentListener(mainFrame, tableWithPaging);
         menuBar.getMenu(MainWindow.EDIT_MENU).getItem(MainWindow.SEARCH_EDIT).addActionListener(searchStudentListener);
+
+        DeleteStudentListener deleteStudentListener = new DeleteStudentListener(mainFrame, tableWithPaging);
+        menuBar.getMenu(MainWindow.EDIT_MENU).getItem(MainWindow.DELETE_EDIT).addActionListener(deleteStudentListener);
     }
 
     public static void main(String[] arg) {

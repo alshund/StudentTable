@@ -1,3 +1,5 @@
+package studentDataBase;
+
 /**
  * Created by shund on 09.04.2017.
  */
@@ -19,12 +21,12 @@ public class Student {
             String studentFullName = surname + " " + firstName + " " + patronymic;
             return studentFullName;
         } else if (columnIndex == 1) {
-            String fatherFullName = father.getSurname() + " " + father.getFirstName() + " " + father.getMiddleName();
+            String fatherFullName = father.getSurname() + " " + father.getFirstName() + " " + father.getPatronymic();
             return fatherFullName;
         } else if (columnIndex == 2) {
             return father.getSalary();
         } else if (columnIndex == 3) {
-            String motherFullName = mother.getSurname() + " " + mother.getFirstName() + " " + mother.getMiddleName();
+            String motherFullName = mother.getSurname() + " " + mother.getFirstName() + " " + mother.getPatronymic();
             return motherFullName;
         } else if (columnIndex == 4) {
             return mother.getSalary();
@@ -45,13 +47,13 @@ public class Student {
         } else if (columnIndex == 1) {
             father.setSurname((String) aValue);
             father.setFirstName((String) aValue);
-            father.setMiddleName((String) aValue);
+            father.setPatronymic((String) aValue);
         } else if (columnIndex == 2) {
             father.setSalary((Double) aValue);
         } else if (columnIndex == 3) {
             mother.setSurname((String) aValue);
             mother.setFirstName((String) aValue);
-            mother.setMiddleName((String) aValue);
+            mother.setPatronymic((String) aValue);
         } else if (columnIndex == 4) {
             mother.setSalary((Double) aValue);
         } else if (columnIndex == 5) {
