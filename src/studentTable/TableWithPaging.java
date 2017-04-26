@@ -32,6 +32,7 @@ public class TableWithPaging extends JComponent {
         add(scrollPane, BorderLayout.CENTER);
 
         toolBar = new JToolBar();
+        toolBar.setLayout(new BorderLayout());
         setPaging(toolBar);
         add(toolBar, BorderLayout.SOUTH);
     }
@@ -40,15 +41,26 @@ public class TableWithPaging extends JComponent {
         toolBar.setFloatable(false);
         toolBar.setVisible(false);
 
+        JPanel recodesChangerPanel = new JPanel();
+        recodesChangerPanel.setLayout(new FlowLayout());
+
         spmRecodesNumber = new SpinnerNumberModel(5, 1, null, 1);
         JSpinner spRecodesNumber = new JSpinner(spmRecodesNumber);
-        spRecodesNumber.setMaximumSize(new Dimension(100, 100));
+        Dimension dimensionRN = spRecodesNumber.getPreferredSize();
+        dimensionRN.width = 50;
+        dimensionRN.height = 32;
+        spRecodesNumber.setPreferredSize(dimensionRN);
+
 
         spmPageChange = new SpinnerNumberModel(1, 1, 1, 1);
         JSpinner spPageChange = new JSpinner(spmPageChange);
-        spPageChange.setMaximumSize(new Dimension(100, 100));
+        Dimension dimensionPC = spRecodesNumber.getPreferredSize();
+        dimensionPC.width = 50;
+        dimensionPC.height = 32;
+        spPageChange.setPreferredSize(dimensionRN);
 
-        JButton btRecodesNumber = new JButton("Change recodes number");
+        JButton btRecodesNumber = new JButton("Change recodes");
+        setIcon(btRecodesNumber, "changeRecodesAmount.png");
         btRecodesNumber.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
@@ -65,7 +77,14 @@ public class TableWithPaging extends JComponent {
             }
         });
 
-        JButton btFirstPage = new JButton("First page");
+        recodesChangerPanel.add(spRecodesNumber);
+        recodesChangerPanel.add(btRecodesNumber);
+
+        JPanel pageStatePanel = new JPanel();
+        pageStatePanel.setLayout(new GridBagLayout());
+
+        JButton btFirstPage = new JButton();
+        setIcon(btFirstPage, "firstPage.png");
         btFirstPage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
@@ -74,29 +93,32 @@ public class TableWithPaging extends JComponent {
             }
         });
 
-        JButton btPreviousPage = new JButton("Previous page");
+        JButton btPreviousPage = new JButton();
+        setIcon(btPreviousPage, "previousPage.png");
         btPreviousPage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 if (currentPage != 1) {
-                    setCurrentPage(currentPage--);
+                    setCurrentPage(--currentPage);
                     updateTable();
                 }
             }
         });
 
-        JButton btNextPage = new JButton("Next page");
+        JButton btNextPage = new JButton();
+        setIcon(btNextPage, "nextPage.png");
         btNextPage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 if (currentPage != pagesNumber) {
-                    setCurrentPage(currentPage++);
+                    setCurrentPage(++currentPage);
                     updateTable();
                 }
             }
         });
 
-        JButton btLastPage = new JButton("Last page");
+        JButton btLastPage = new JButton();
+        setIcon(btLastPage, "lastPage.png");
         btLastPage.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
@@ -105,7 +127,16 @@ public class TableWithPaging extends JComponent {
             }
         });
 
+        addComponent(pageStatePanel, btFirstPage, 0, 0, 1, 1);
+        addComponent(pageStatePanel, btPreviousPage, GridBagConstraints.RELATIVE, 0, 1, 1);
+        addComponent(pageStatePanel, btNextPage, GridBagConstraints.RELATIVE, 0, 1, 1);
+        addComponent(pageStatePanel, btLastPage, GridBagConstraints.RELATIVE, 0, 1, 1);
+
+        JPanel pageChangerPanel = new JPanel();
+        pageChangerPanel.setLayout(new FlowLayout());
+
         JButton btPageChange = new JButton("Change page");
+        setIcon(btPageChange, "changePage.png");
         btPageChange.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
@@ -115,22 +146,26 @@ public class TableWithPaging extends JComponent {
                 tableModel.fireTableDataChanged();
             }
         });
-        ButtonGroup buttonGroup = new ButtonGroup();
-        buttonGroup.add(btFirstPage);
-        buttonGroup.add(btPreviousPage);
-        buttonGroup.add(btNextPage);
-        buttonGroup.add(btLastPage);
 
-        toolBar.add(spRecodesNumber);
-        toolBar.add(btRecodesNumber);
-        toolBar.addSeparator();
-        toolBar.add(btFirstPage);
-        toolBar.add(btPreviousPage);
-        toolBar.add(btNextPage);
-        toolBar.add(btLastPage);
-        toolBar.addSeparator();
-        toolBar.add(spPageChange);
-        toolBar.add(btPageChange);
+        pageChangerPanel.add(btPageChange);
+        pageChangerPanel.add(spPageChange);
+
+        toolBar.add(recodesChangerPanel, BorderLayout.WEST);
+        toolBar.add(pageStatePanel, BorderLayout.CENTER);
+        toolBar.add(pageChangerPanel, BorderLayout.EAST);
+    }
+
+    private void setIcon(JButton button, String name) {
+        ImageIcon imageIcon = new ImageIcon("Resource/" + name);
+        button.setIcon(imageIcon);
+    }
+
+    private void addComponent(JComponent container, JComponent component, int gridX, int gridY, int gridWidth, int gridHeight) {
+        Insets insets = new Insets(5, 5, 5, 5);
+        GridBagConstraints gbc = new GridBagConstraints(gridX, gridY, gridWidth, gridHeight, 1.0, 1.0,
+                GridBagConstraints.CENTER, GridBagConstraints.BOTH,
+                insets, 0, 0);
+        container.add(component, gbc);
     }
 
     public void updateTable() {

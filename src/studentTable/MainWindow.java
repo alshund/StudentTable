@@ -4,6 +4,9 @@ import tableController.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.awt.event.WindowStateListener;
 
 /**
  * Created by shund on 09.04.2017.
@@ -26,18 +29,19 @@ public class MainWindow {
 
     public MainWindow() {
         mainFrame = new JFrame("Состав семьи студентов");
-//        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        mainFrame.setSize(600, 600);
+        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        mainFrame.setSize(JFrame.MAXIMIZED_HORIZ, 600);
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.setLayout(new BorderLayout());
 
         menuBar = addJMenuBar();
         mainFrame.setJMenuBar(menuBar);
 
+        tableWithPaging = new TableWithPaging();
+
         toolBar = addJToolBar();
         mainFrame.add(toolBar, BorderLayout.NORTH);
 
-        tableWithPaging = new TableWithPaging();
         mainFrame.add(tableWithPaging, BorderLayout.CENTER);
 
         addListener();
@@ -71,6 +75,9 @@ public class MainWindow {
         JMenuItem openItem = new JMenuItem("Open");
         JMenuItem saveItem = new JMenuItem("Save");
         JMenuItem exitItem = new JMenuItem("Exit");
+
+        saveItem.setEnabled(false);
+
         menu.add(newItem);
         menu.add(openItem);
         menu.add(saveItem);
@@ -81,6 +88,11 @@ public class MainWindow {
         JMenuItem addItem = new JMenuItem("Add");
         JMenuItem searchItem = new JMenuItem("Search");
         JMenuItem deleteItem = new JMenuItem("Delete");
+
+        addItem.setEnabled(false);
+        searchItem.setEnabled(false);
+        deleteItem.setEnabled(false);
+
         menu.add(addItem);
         menu.add(searchItem);
         menu.add(deleteItem);
@@ -93,21 +105,36 @@ public class MainWindow {
     }
 
     private void setJToolBar(JToolBar tool) {
-        JButton search = new JButton("Search");
-        JButton add = new JButton("Add");
-        JButton delete = new JButton("Delete");
-        tool.add(search);
+        JButton add = new JButton();
+        JButton search = new JButton();
+        JButton delete = new JButton();
+
+        setIcon(add, "addition.png");
+        setIcon(search, "search.png");
+        setIcon(delete, "delete.png");
+
+        add.addActionListener(new AdditionStudentListener(mainFrame, tableWithPaging));
+        search.addActionListener(new SearchStudentListener(mainFrame, tableWithPaging));
+        delete.addActionListener(new DeleteStudentListener(mainFrame, tableWithPaging));
+
         tool.add(add);
+        tool.add(search);
         tool.add(delete);
+
         tool.setFloatable(false);
         tool.setVisible(false);
     }
 
+    private void setIcon(JButton button, String name) {
+        ImageIcon imageIcon = new ImageIcon("Resource/" + name);
+        button.setIcon(imageIcon);
+    }
+
     private void addListener(){
-        NewTableListener newTableListener = new NewTableListener(toolBar, tableWithPaging);
+        NewTableListener newTableListener = new NewTableListener(menuBar, toolBar, tableWithPaging);
         menuBar.getMenu(FILE_MENU).getItem(NEW_FILE).addActionListener(newTableListener);
 
-        OpenListener openListener = new OpenListener(tableWithPaging);
+        OpenListener openListener = new OpenListener(menuBar, toolBar, tableWithPaging);
         menuBar.getMenu(FILE_MENU).getItem(OPEN_FIE).addActionListener(openListener);
 
         SaveListener saveListener = new SaveListener(tableWithPaging);
