@@ -12,20 +12,20 @@ import java.awt.event.WindowStateListener;
  * Created by shund on 09.04.2017.
  */
 public class MainWindow {
+    public static final int FILE_MENU = 0;
+    public static final int EDIT_MENU = 1;
+    public static final int NEW_FILE = 0;
+    public static final int OPEN_FIE = 1;
+    public static final int SAVE_FILE = 2;
+    public static final int EXIT_FILE = 3;
+    public static final int ADD_EDIT = 0;
+    public static final int SEARCH_EDIT = 1;
+    public static final int DELETE_EDIT = 2;
+
     private JFrame mainFrame;
     private JMenuBar menuBar;
     private JToolBar toolBar;
     private TableWithPaging tableWithPaging;
-
-    static public final int FILE_MENU = 0;
-    static public final int EDIT_MENU = 1;
-    static public final int NEW_FILE = 0;
-    static public final int OPEN_FIE = 1;
-    static public final int SAVE_FILE = 2;
-    static public final int EXIT_FILE = 3;
-    static public final int ADD_EDIT = 0;
-    static public final int SEARCH_EDIT = 1;
-    static public final int DELETE_EDIT = 2;
 
     public MainWindow() {
         mainFrame = new JFrame("Состав семьи студентов");
@@ -70,7 +70,7 @@ public class MainWindow {
         return menu;
     }
 
-    private void setJFileItem(JMenu menu)   {
+    private void setJFileItem(JMenu menu) {
         JMenuItem newItem = new JMenuItem("New");
         JMenuItem openItem = new JMenuItem("Open");
         JMenuItem saveItem = new JMenuItem("Save");
@@ -130,7 +130,7 @@ public class MainWindow {
         button.setIcon(imageIcon);
     }
 
-    private void addListener(){
+    private void addListener() {
         NewTableListener newTableListener = new NewTableListener(menuBar, toolBar, tableWithPaging);
         menuBar.getMenu(FILE_MENU).getItem(NEW_FILE).addActionListener(newTableListener);
 

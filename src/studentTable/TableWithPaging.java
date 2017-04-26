@@ -172,6 +172,9 @@ public class TableWithPaging extends JComponent {
         if (isNewPage()) {
             setPagesNumber((int) Math.ceil((double) studentDataBase.getStudents().size() / recodesNumber));
             setCurrentPage(pagesNumber);
+        } else {
+            setPagesNumber((Integer) spmPageChange.getMinimum());
+            setCurrentPage(pagesNumber);
         }
         List<Student> page = studentDataBase.getPage(currentPage, recodesNumber);
         tableModel.setStudents(page);
@@ -179,8 +182,9 @@ public class TableWithPaging extends JComponent {
     }
 
     private boolean isNewPage() {
-        return (pagesNumber - 1) * recodesNumber + recodesNumber < studentDataBase.getStudents().size();
+        return (pagesNumber - 1) * recodesNumber + recodesNumber <= studentDataBase.getStudents().size();
     }
+
 
     public JTable getTable() {
         return table;

@@ -207,7 +207,7 @@ public class SearchStudentDialog {
 
         private boolean isValid(int surname, int firstName, int patronymic) {
             boolean isValid = true;
-            Pattern nameField = Pattern.compile("([A-Z])[a-z]+");
+            Pattern nameField = Pattern.compile("([А-Я])[а-я]+");
             JCheckBox cbSurname = searchPanel.getCheckBox(surname);
             JCheckBox cbFirstName = searchPanel.getCheckBox(firstName);
             JCheckBox cbPatronymic = searchPanel.getCheckBox(patronymic);

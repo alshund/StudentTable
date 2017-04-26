@@ -9,9 +9,9 @@ public class Mother {
     private String surname;
     private double salary;
 
-    public Mother(String firstName, String middleName, String surname, double salary) {
+    public Mother(String surname, String firstName, String patronymic, double salary) {
         this.firstName = firstName;
-        this.patronymic = middleName;
+        this.patronymic = patronymic;
         this.surname = surname;
         this.salary = salary;
     }

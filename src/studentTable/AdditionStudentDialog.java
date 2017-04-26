@@ -45,55 +45,55 @@ public class AdditionStudentDialog {
         JLabel lbStudentSurname = new JLabel("Student surname");
         lbStudentSurname.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbStudentSurname, 0, 0, 2, 1);
-        tfStudentSurname = new JTextField("Ass");
+        tfStudentSurname = new JTextField();
         addComponent(dialogPanel, tfStudentSurname, 2, 0, 2, 1);
 
         JLabel lbStudentFirstName = new JLabel("Student first name");
         lbStudentFirstName.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbStudentFirstName, 0, 1, 2, 1);
-        tfStudentFirstName = new JTextField("Ass");
+        tfStudentFirstName = new JTextField();
         addComponent(dialogPanel, tfStudentFirstName, 2, 1, 2, 1);
 
         JLabel lbStudentPatronymic = new JLabel("Student patronymic");
         lbStudentPatronymic.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbStudentPatronymic, 0, 2, 2, 1);
-        tfStudentPatronymic = new JTextField("Ass");
+        tfStudentPatronymic = new JTextField();
         addComponent(dialogPanel, tfStudentPatronymic, 2, 2, 2, 1);
 
         JLabel lbMotherSurname = new JLabel("Mother surname");
         lbMotherSurname.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbMotherSurname, 0, 3, 1, 1);
-        tfMotherSurname = new JTextField("Ass");
+        tfMotherSurname = new JTextField();
         addComponent(dialogPanel, tfMotherSurname, 1, 3, 1, 1);
 
         JLabel lbFatherSurname = new JLabel("Father surname");
         lbFatherSurname.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbFatherSurname, 2, 3, 1, 1);
-        tfFatherSurname = new JTextField("Ass");
+        tfFatherSurname = new JTextField();
         addComponent(dialogPanel, tfFatherSurname, 3, 3, 1, 1);
 
         JLabel lbMotherFirstName = new JLabel("Mother first name");
         lbMotherFirstName.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbMotherFirstName, 0, 4, 1, 1);
-        tfMotherFirstName = new JTextField("Ass");
+        tfMotherFirstName = new JTextField();
         addComponent(dialogPanel, tfMotherFirstName, 1, 4, 1, 1);
 
         JLabel lbFatherFirstName = new JLabel("Father first name");
         lbFatherFirstName.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbFatherFirstName, 2, 4, 1, 1);
-        tfFatherFirstName = new JTextField("Ass");
+        tfFatherFirstName = new JTextField();
         addComponent(dialogPanel, tfFatherFirstName, 3, 4, 1, 1);
 
         JLabel lbMotherPatronymic = new JLabel("Mother patronymic");
         lbMotherPatronymic.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbMotherPatronymic, 0, 5, 1, 1);
-        tfMotherPatronymic = new JTextField("Ass");
+        tfMotherPatronymic = new JTextField();
         addComponent(dialogPanel, tfMotherPatronymic, 1, 5, 1, 1);
 
         JLabel lbFatherPatronymic = new JLabel("Father patronymic");
         lbFatherPatronymic.setHorizontalAlignment(JLabel.CENTER);
         addComponent(dialogPanel, lbFatherPatronymic, 2, 5, 1, 1);
-        tfFatherPatronymic = new JTextField("Ass");
+        tfFatherPatronymic = new JTextField();
         addComponent(dialogPanel, tfFatherPatronymic, 3, 5, 1, 1);
 
         SpinnerNumberModel spmMotherSalary = new SpinnerNumberModel(0.0, 0.0, null, 0.1);
@@ -177,7 +177,7 @@ public class AdditionStudentDialog {
 
     private boolean isValid() {
         boolean isValid = true;
-        Pattern nameField = Pattern.compile("([A-Z])[a-z]+");
+        Pattern nameField = Pattern.compile("([А-Я])[а-я]+");
         if (!nameField.matcher(tfStudentSurname.getText()).matches()) {
             isValid = false;
             showMassage(tfStudentSurname, "Student surname");

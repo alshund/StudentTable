@@ -9,7 +9,7 @@ public class Father {
     private String surname;
     private double salary;
 
-    public Father(String firstName, String patronymic, String surname, double salary) {
+    public Father(String surname, String firstName, String patronymic, double salary) {
         this.firstName = firstName;
         this.patronymic = patronymic;
         this.surname = surname;

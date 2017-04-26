@@ -173,14 +173,14 @@ public class DeleteStudentDialog {
             }
             if (isFound) {
                 recodesAmount = recodesAmount - tableWithPaging.getStudentDataBase().getStudents().size();
-                JOptionPane.showMessageDialog(deleteStudentDialog, "The deletion is complete.Number of deleted records: " + recodesAmount, "Delete", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(deleteStudentDialog, "The deletion is complete. Number of deleted records: " + recodesAmount, "Delete", JOptionPane.INFORMATION_MESSAGE);
                 deleteStudentDialog.dispose();
             }
         }
 
         private boolean isValid(int surname, int firstName, int patronymic) {
             boolean isValid = true;
-            Pattern nameField = Pattern.compile("([A-Z])[a-z]+");
+            Pattern nameField = Pattern.compile("([А-Я])[а-я]+");
             JCheckBox cbSurname = searchPanel.getCheckBox(surname);
             JCheckBox cbFirstName = searchPanel.getCheckBox(firstName);
             JCheckBox cbPatronymic = searchPanel.getCheckBox(patronymic);
