@@ -1,12 +1,10 @@
 package studentTable;
 
-import tableController.*;
+import tableListener.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.awt.event.WindowStateListener;
+import java.awt.event.*;
 
 /**
  * Created by shund on 09.04.2017.
@@ -139,6 +137,13 @@ public class MainWindow {
 
         SaveListener saveListener = new SaveListener(tableWithPaging);
         menuBar.getMenu(FILE_MENU).getItem(SAVE_FILE).addActionListener(saveListener);
+
+        menuBar.getMenu(FILE_MENU).getItem(EXIT_FILE).addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                System.exit(0);
+            }
+        });
 
         AdditionStudentListener additionStudentListener = new AdditionStudentListener(mainFrame, tableWithPaging);
         menuBar.getMenu(MainWindow.EDIT_MENU).getItem(MainWindow.ADD_EDIT).addActionListener(additionStudentListener);
