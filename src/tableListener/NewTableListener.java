@@ -5,6 +5,7 @@ import studentDataBase.StudentDataBase;
 import studentTable.MainWindow;
 import studentTable.TableModel;
 import studentTable.TableWithPaging;
+import tableController.TableController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -18,11 +19,13 @@ public class NewTableListener implements ActionListener {
     JMenuBar menuBar;
     JToolBar toolBar;
     TableWithPaging tableWithPaging;
+    TableController tableController;
 
-    public NewTableListener(JMenuBar menuBar, JToolBar toolBar, TableWithPaging tableWithPaging) {
+    public NewTableListener(JMenuBar menuBar, JToolBar toolBar, TableWithPaging tableWithPaging, TableController tableController) {
         this.menuBar = menuBar;
         this.toolBar = toolBar;
         this.tableWithPaging = tableWithPaging;
+        this.tableController = tableController;
     }
 
     @Override
@@ -40,13 +43,11 @@ public class NewTableListener implements ActionListener {
         TableModel tableModel = new TableModel(new ArrayList<Student>());
         tableWithPaging.setTableModel(tableModel);
 
-        StudentDataBase studentDataBase = new StudentDataBase();
-        tableWithPaging.setStudentDataBase(studentDataBase);
+        tableController.getStudentDataBase().setStudents(new ArrayList<Student>());
 
-        tableWithPaging.setRecodesNumber(5);
-        tableWithPaging.setPagesNumber(1);
-        tableWithPaging.setCurrentPage(1);
+
 
         tableWithPaging.getToolBar().setVisible(true);
+//        tableController.getStudentDataBase().addTable(tableWithPaging);
     }
 }

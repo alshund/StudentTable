@@ -23,34 +23,37 @@ public class SearchPanel {
     public static final int SALARY_UPPER_LIMIT = 7;
     public static final int SIBLING_AMOUNT = 8;
 
-
     private JPanel searchPanel;
-    private List<JComponent> inputFieldList;
-    private List<JComponent> checkBoxFieldList;
+    private List<JComponent> inputList;
+    private List<JCheckBox> checkBoxFieldList;
+    private List<JRadioButton> radioButtonList;
     private JRadioButton rbStudent;
     private JRadioButton rbFather;
     private JRadioButton rbFatherSalary;
     private JRadioButton rbMother;
     private JRadioButton rbMotherSalary;
-    private JRadioButton rbBrotherNumber;
-    private JRadioButton rbSisterNumber;
+    private JRadioButton rbBrotherAmount;
+    private JRadioButton rbSisterAmount;
 
     public SearchPanel() {
         searchPanel = new JPanel();
         searchPanel.setLayout(new GridBagLayout());
 
-        inputFieldList = new ArrayList<JComponent>();
+        inputList = new ArrayList<JComponent>();
         ButtonGroup buttonGroup = new ButtonGroup();
 
-        checkBoxFieldList = new ArrayList<JComponent>();
+        checkBoxFieldList = new ArrayList<JCheckBox>();
+        radioButtonList = new ArrayList<JRadioButton>();
 
         JPanel studentPanel = new JPanel();
         studentPanel.setLayout(new GridBagLayout());
         studentPanel.setBorder(BorderFactory.createTitledBorder("Student"));
 
         rbStudent = new JRadioButton("Student");
+        rbStudent.setName("Student");
         addComponent(studentPanel, rbStudent, 0, 0, 1, 1);
         buttonGroup.add(rbStudent);
+        radioButtonList.add(rbStudent);
 
         JCheckBox cbStudentSurname = new JCheckBox("Surname");
         cbStudentSurname.setName("Student");
@@ -61,7 +64,7 @@ public class SearchPanel {
         JTextField tfStudentSurname = new JTextField("", 10);
         tfStudentSurname.setName("Student surname");
         tfStudentSurname.setEnabled(false);
-        inputFieldList.add(tfStudentSurname);
+        inputList.add(tfStudentSurname);
         addComponent(studentPanel, tfStudentSurname, 1, 1, 2, 1);
 
         JCheckBox cbStudentFirstName = new JCheckBox("First name");
@@ -73,7 +76,7 @@ public class SearchPanel {
         JTextField tfStudentFirstName = new JTextField("", 10);
         tfStudentFirstName.setName("Student first name");
         tfStudentFirstName.setEnabled(false);
-        inputFieldList.add(tfStudentFirstName);
+        inputList.add(tfStudentFirstName);
         addComponent(studentPanel, tfStudentFirstName, 1, 2, 2, 1);
 
         JCheckBox cbStudentPatronymic = new JCheckBox("Patronymic");
@@ -85,7 +88,7 @@ public class SearchPanel {
         JTextField tfStudentPatronymic = new JTextField("", 10);
         tfStudentPatronymic.setName("Student patronymic");
         tfStudentPatronymic.setEnabled(false);
-        inputFieldList.add(tfStudentPatronymic);
+        inputList.add(tfStudentPatronymic);
         addComponent(studentPanel, tfStudentPatronymic, 1, 3, 2, 1);
 
         rbStudent.addActionListener(new ActionListener() {
@@ -107,9 +110,9 @@ public class SearchPanel {
             @Override
             public void itemStateChanged(ItemEvent event) {
                 if (cbStudentSurname.isSelected()) {
-                    inputFieldList.get(STUDENT_SURNAME).setEnabled(true);
+                    inputList.get(STUDENT_SURNAME).setEnabled(true);
                 } else {
-                    inputFieldList.get(STUDENT_SURNAME).setEnabled(false);
+                    inputList.get(STUDENT_SURNAME).setEnabled(false);
                 }
             }
         });
@@ -118,9 +121,9 @@ public class SearchPanel {
             @Override
             public void itemStateChanged(ItemEvent event) {
                 if (cbStudentFirstName.isSelected()) {
-                    inputFieldList.get(STUDENT_FIRST_NAME).setEnabled(true);
+                    inputList.get(STUDENT_FIRST_NAME).setEnabled(true);
                 } else {
-                    inputFieldList.get(STUDENT_FIRST_NAME).setEnabled(false);
+                    inputList.get(STUDENT_FIRST_NAME).setEnabled(false);
                 }
             }
         });
@@ -129,9 +132,9 @@ public class SearchPanel {
             @Override
             public void itemStateChanged(ItemEvent event) {
                 if (cbStudentPatronymic.isSelected()) {
-                    inputFieldList.get(STUDENT_PATRONYMIC).setEnabled(true);
+                    inputList.get(STUDENT_PATRONYMIC).setEnabled(true);
                 } else {
-                    inputFieldList.get(STUDENT_PATRONYMIC).setEnabled(false);
+                    inputList.get(STUDENT_PATRONYMIC).setEnabled(false);
                 }
             }
         });
@@ -143,12 +146,16 @@ public class SearchPanel {
         parentPanel.setBorder(BorderFactory.createTitledBorder("Parent"));
 
         rbFather = new JRadioButton("Father");
+        rbFather.setName("Father");
         addComponent(parentPanel, rbFather, 0, 0, 1, 1);
         buttonGroup.add(rbFather);
+        radioButtonList.add(rbFather);
 
         rbMother = new JRadioButton("Mother");
+        rbMother.setName("Mother");
         addComponent(parentPanel, rbMother, 1, 0, 1, 1);
         buttonGroup.add(rbMother);
+        radioButtonList.add(rbMother);
 
         JCheckBox cbParentSurname = new JCheckBox("Surname");
         cbParentSurname.setName("Parent");
@@ -159,7 +166,7 @@ public class SearchPanel {
         JTextField tfParentSurname = new JTextField("", 10);
         tfParentSurname.setName("Parent surname");
         tfParentSurname.setEnabled(false);
-        inputFieldList.add(tfParentSurname);
+        inputList.add(tfParentSurname);
         addComponent(parentPanel, tfParentSurname, 1, 1, 2, 1);
 
 
@@ -172,7 +179,7 @@ public class SearchPanel {
         JTextField tfParentFirstName = new JTextField("", 10);
         tfParentFirstName.setName("Parent first name");
         tfParentFirstName.setEnabled(false);
-        inputFieldList.add(tfParentFirstName);
+        inputList.add(tfParentFirstName);
         addComponent(parentPanel, tfParentFirstName, 1, 2, 2, 1);
 
         JCheckBox cbParentPatronymic = new JCheckBox("Patronymic");
@@ -184,7 +191,7 @@ public class SearchPanel {
         JTextField tfParentPatronymic = new JTextField("", 10);
         tfParentPatronymic.setName("Parent patronymic");
         tfParentPatronymic.setEnabled(false);
-        inputFieldList.add(tfParentPatronymic);
+        inputList.add(tfParentPatronymic);
         addComponent(parentPanel, tfParentPatronymic, 1, 3, 2, 1);
 
         rbFather.addActionListener(new ActionListener() {
@@ -219,9 +226,9 @@ public class SearchPanel {
             @Override
             public void itemStateChanged(ItemEvent event) {
                 if (cbParentSurname.isSelected()) {
-                    inputFieldList.get(PARENT_SURNAME).setEnabled(true);
+                    inputList.get(PARENT_SURNAME).setEnabled(true);
                 } else {
-                    inputFieldList.get(PARENT_SURNAME).setEnabled(false);
+                    inputList.get(PARENT_SURNAME).setEnabled(false);
                 }
             }
         });
@@ -230,9 +237,9 @@ public class SearchPanel {
             @Override
             public void itemStateChanged(ItemEvent event) {
                 if (cbParentFirstName.isSelected()) {
-                    inputFieldList.get(PARENT_FIRST_NAME).setEnabled(true);
+                    inputList.get(PARENT_FIRST_NAME).setEnabled(true);
                 } else {
-                    inputFieldList.get(PARENT_FIRST_NAME).setEnabled(false);
+                    inputList.get(PARENT_FIRST_NAME).setEnabled(false);
                 }
             }
         });
@@ -241,9 +248,9 @@ public class SearchPanel {
             @Override
             public void itemStateChanged(ItemEvent event) {
                 if (cbParentPatronymic.isSelected()) {
-                    inputFieldList.get(PARENT_PATRONYMIC).setEnabled(true);
+                    inputList.get(PARENT_PATRONYMIC).setEnabled(true);
                 } else {
-                    inputFieldList.get(PARENT_PATRONYMIC).setEnabled(false);
+                    inputList.get(PARENT_PATRONYMIC).setEnabled(false);
                 }
             }
         });
@@ -255,12 +262,16 @@ public class SearchPanel {
         salaryPanel.setBorder(BorderFactory.createTitledBorder("Salary"));
 
         rbFatherSalary = new JRadioButton("Father");
+        rbFatherSalary.setName("FatherSalary");
         addComponent(salaryPanel, rbFatherSalary, 0, 0, 1, 1);
         buttonGroup.add(rbFatherSalary);
+        radioButtonList.add(rbFatherSalary);
 
         rbMotherSalary = new JRadioButton("Mother");
+        rbMotherSalary.setName("MotherSalary");
         addComponent(salaryPanel, rbMotherSalary, 1, 0, 1, 1);
         buttonGroup.add(rbMotherSalary);
+        radioButtonList.add(rbMotherSalary);
 
         JCheckBox cbLowerLimit = new JCheckBox("Lower limit");
         cbLowerLimit.setName("Salary");
@@ -273,7 +284,7 @@ public class SearchPanel {
         JSpinner spLowerLimit = new JSpinner(spmLowerLimit);
         spLowerLimit.setName("Salary lower limit");
         spLowerLimit.setEnabled(false);
-        inputFieldList.add(spLowerLimit);
+        inputList.add(spLowerLimit);
         addComponent(salaryPanel, spLowerLimit, 1, 1, 2, 1);
 
         JCheckBox cbUpperLimit = new JCheckBox("Upper limit");
@@ -287,7 +298,7 @@ public class SearchPanel {
         JSpinner spUpperLimit = new JSpinner(spmUpperLimit);
         spUpperLimit.setName("Salary upper limit");
         spUpperLimit.setEnabled(false);
-        inputFieldList.add(spUpperLimit);
+        inputList.add(spUpperLimit);
         addComponent(salaryPanel, spUpperLimit, 1, 2, 2, 1);
 
         rbFatherSalary.addActionListener(new ActionListener() {
@@ -322,9 +333,9 @@ public class SearchPanel {
             @Override
             public void itemStateChanged(ItemEvent event) {
                 if (cbLowerLimit.isSelected()) {
-                    inputFieldList.get(SALARY_LOWER_LIMIT).setEnabled(true);
+                    inputList.get(SALARY_LOWER_LIMIT).setEnabled(true);
                 } else {
-                    inputFieldList.get(SALARY_LOWER_LIMIT).setEnabled(false);
+                    inputList.get(SALARY_LOWER_LIMIT).setEnabled(false);
                 }
             }
         });
@@ -333,9 +344,9 @@ public class SearchPanel {
             @Override
             public void itemStateChanged(ItemEvent event) {
                 if (cbUpperLimit.isSelected()) {
-                    inputFieldList.get(SALARY_UPPER_LIMIT).setEnabled(true);
+                    inputList.get(SALARY_UPPER_LIMIT).setEnabled(true);
                 } else {
-                    inputFieldList.get(SALARY_UPPER_LIMIT).setEnabled(false);
+                    inputList.get(SALARY_UPPER_LIMIT).setEnabled(false);
                 }
             }
         });
@@ -346,13 +357,17 @@ public class SearchPanel {
         siblingPanel.setLayout(new GridBagLayout());
         siblingPanel.setBorder(BorderFactory.createTitledBorder("Brother and sisters"));
 
-        rbBrotherNumber = new JRadioButton("Brother's");
-        addComponent(siblingPanel, rbBrotherNumber, 0, 0, 1, 1);
-        buttonGroup.add(rbBrotherNumber);
+        rbBrotherAmount = new JRadioButton("Brother's");
+        rbBrotherAmount.setName("BrotherAmount");
+        addComponent(siblingPanel, rbBrotherAmount, 0, 0, 1, 1);
+        buttonGroup.add(rbBrotherAmount);
+        radioButtonList.add(rbBrotherAmount);
 
-        rbSisterNumber = new JRadioButton("Sister's");
-        addComponent(siblingPanel, rbSisterNumber, 1, 0, 1, 1);
-        buttonGroup.add(rbSisterNumber);
+        rbSisterAmount = new JRadioButton("Sister's");
+        rbSisterAmount.setName("SisterAmount");
+        addComponent(siblingPanel, rbSisterAmount, 1, 0, 1, 1);
+        buttonGroup.add(rbSisterAmount);
+        radioButtonList.add(rbSisterAmount);
 
         JLabel lbBrStNumber = new JLabel("Amount");
         addComponent(siblingPanel, lbBrStNumber, 0, 1, 1, 1);
@@ -361,17 +376,17 @@ public class SearchPanel {
         JSpinner spSiblingAmount = new JSpinner(spmBrStAmount);
         spSiblingAmount.setName("Sibling Amount");
         spSiblingAmount.setEnabled(false);
-        inputFieldList.add(spSiblingAmount);
+        inputList.add(spSiblingAmount);
         addComponent(siblingPanel, spSiblingAmount, 1, 1, 2, 1);
 
-        rbBrotherNumber.addActionListener(new ActionListener() {
+        rbBrotherAmount.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                for (JComponent component : inputFieldList) {
+                for (JComponent component : inputList) {
                     if (component.getName().equals("Sibling Amount")) {
                         component.setEnabled(true);
                     } else {
-                        int checkBoxPosition = inputFieldList.indexOf(component);
+                        int checkBoxPosition = inputList.indexOf(component);
                         if (checkBoxPosition < checkBoxFieldList.size()){
                             JCheckBox checkBox = (JCheckBox) checkBoxFieldList.get(checkBoxPosition);
                             checkBox.setSelected(false);
@@ -383,10 +398,10 @@ public class SearchPanel {
             }
         });
 
-        rbBrotherNumber.addItemListener(new ItemListener() {
+        rbBrotherAmount.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent event) {
-                if (rbBrotherNumber.isSelected()) {
+                if (rbBrotherAmount.isSelected()) {
                     spSiblingAmount.setEnabled(true);
                 } else {
                     spSiblingAmount.setEnabled(false);
@@ -394,10 +409,10 @@ public class SearchPanel {
             }
         });
 
-        rbSisterNumber.addActionListener(new ActionListener() {
+        rbSisterAmount.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                for (JComponent component : inputFieldList) {
+                for (JComponent component : inputList) {
                     if (component.getName().equals("Sibling Amount")) {
                         component.setEnabled(true);
                     } else {
@@ -407,10 +422,10 @@ public class SearchPanel {
             }
         });
 
-        rbSisterNumber.addItemListener(new ItemListener() {
+        rbSisterAmount.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent event) {
-                if(rbSisterNumber.isSelected()) {
+                if(rbSisterAmount.isSelected()) {
                     spSiblingAmount.setEnabled(true);
                 } else {
                     spSiblingAmount.setEnabled(false);
@@ -433,47 +448,51 @@ public class SearchPanel {
         return searchPanel;
     }
 
-    public List<JComponent> getInputFieldList() {
-        return inputFieldList;
+    public List<JComponent> getInputList() {
+        return inputList;
     }
 
     public Object getInputFieldValue (int ifIndex) {
         JTextField textField;
         JSpinner spinner;
         if (ifIndex == STUDENT_SURNAME) {
-            textField = (JTextField) inputFieldList.get(STUDENT_SURNAME);
+            textField = (JTextField) inputList.get(STUDENT_SURNAME);
             return textField.getText();
         } else if (ifIndex == STUDENT_FIRST_NAME) {
-            textField = (JTextField) inputFieldList.get(STUDENT_FIRST_NAME);
+            textField = (JTextField) inputList.get(STUDENT_FIRST_NAME);
             return  textField.getText();
         } else if (ifIndex == STUDENT_PATRONYMIC) {
-            textField = (JTextField) inputFieldList.get(STUDENT_PATRONYMIC);
+            textField = (JTextField) inputList.get(STUDENT_PATRONYMIC);
             return textField.getText();
         } else if (ifIndex == PARENT_SURNAME) {
-            textField = (JTextField) inputFieldList.get(PARENT_SURNAME);
+            textField = (JTextField) inputList.get(PARENT_SURNAME);
             return textField.getText();
         } else if (ifIndex == PARENT_FIRST_NAME) {
-            textField = (JTextField) inputFieldList.get(PARENT_FIRST_NAME);
+            textField = (JTextField) inputList.get(PARENT_FIRST_NAME);
             return textField.getText();
         } else if (ifIndex == PARENT_PATRONYMIC) {
-            textField = (JTextField) inputFieldList.get(PARENT_PATRONYMIC);
+            textField = (JTextField) inputList.get(PARENT_PATRONYMIC);
             return textField.getText();
         } else if (ifIndex == SALARY_LOWER_LIMIT) {
-            spinner = (JSpinner) inputFieldList.get(SALARY_LOWER_LIMIT);
+            spinner = (JSpinner) inputList.get(SALARY_LOWER_LIMIT);
             return spinner.getValue();
         } else if (ifIndex == SALARY_UPPER_LIMIT) {
-            spinner = (JSpinner) inputFieldList.get(SALARY_UPPER_LIMIT);
+            spinner = (JSpinner) inputList.get(SALARY_UPPER_LIMIT);
             return spinner.getValue();
         } else if (ifIndex == SIBLING_AMOUNT) {
-            spinner = (JSpinner) inputFieldList.get(SIBLING_AMOUNT);
+            spinner = (JSpinner) inputList.get(SIBLING_AMOUNT);
             return spinner.getValue();
         } else {
             return null;
         }
     }
 
-    public List<JComponent> getCheckBoxFieldList() {
+    public List<JCheckBox> getCheckBoxFieldList() {
         return checkBoxFieldList;
+    }
+
+    public List<JRadioButton> getRadioButtonList() {
+        return radioButtonList;
     }
 
     public JCheckBox getCheckBox (int cbIndex){
@@ -527,12 +546,12 @@ public class SearchPanel {
         return rbMotherSalary;
     }
 
-    public JRadioButton getRbBrotherNumber() {
-        return rbBrotherNumber;
+    public JRadioButton getRbBrotherAmount() {
+        return rbBrotherAmount;
     }
 
-    public JRadioButton getRbSisterNumber() {
-        return rbSisterNumber;
+    public JRadioButton getRbSisterAmount() {
+        return rbSisterAmount;
     }
 }
 

@@ -1,30 +1,44 @@
 package studentTable;
 
+import observe.Observer;
 import studentDataBase.Student;
-import studentDataBase.StudentDataBase;
+import tableController.TableController;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.List;
+
 
 
 /**
  * Created by shund on 11.04.2017.
  */
-public class TableWithPaging extends JComponent {
+public class TableWithPaging extends JComponent implements Observer {
+    public static final int FIRST_PAGE = 1;
+
+    private TableController tableController;
+
     private JTable table;
     private TableModel tableModel;
-    private StudentDataBase studentDataBase;
-    private int recodesNumber;
-    private int pagesNumber;
-    private int currentPage;
-    private JToolBar toolBar;
-    private SpinnerNumberModel spmPageChange;
-    private SpinnerNumberModel spmRecodesNumber;
 
-    public TableWithPaging() {
+    private SpinnerNumberModel spmRecodesChanger;
+    private SpinnerNumberModel spmPageChanger;
+
+    private JToolBar toolBar;
+
+    private JButton btChangeRecodesAmount;
+    private JButton btFirstPage;
+    private JButton btLastPage;
+    private JButton btPreviousPage;
+    private JButton btNextPage;
+    private JButton btChangePagesAmount;
+
+    public TableWithPaging(TableController tableController) {
+        this.tableController = tableController;
+        tableController.getStudentDataBase().addTable(this);
         setLayout(new BorderLayout());
 
         table = new JTable();
@@ -32,10 +46,112 @@ public class TableWithPaging extends JComponent {
         add(scrollPane, BorderLayout.CENTER);
 
         toolBar = new JToolBar();
+
         toolBar.setLayout(new BorderLayout());
         setPaging(toolBar);
         add(toolBar, BorderLayout.SOUTH);
+        addListeners();
     }
+
+    private void addListeners() {
+        getBtChangeRecodesAmount().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                tableController.changeRecodesAmount();
+            }
+        });
+
+        getBtFirstPage().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                setCurrentPage(FIRST_PAGE);
+                tableController.changePage(getCurrentPage(), getRecodesAmount());
+            }
+        });
+
+        getBtPreviousPage().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                if (getCurrentPage() != FIRST_PAGE) {
+                    int previousPage = getCurrentPage() - 1;
+                    setCurrentPage(previousPage);
+                }
+                tableController.changePage(getCurrentPage(), getRecodesAmount());
+            }
+        });
+
+        getBtNextPage().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                if (getCurrentPage() != getPagesAmount()) {
+                    int nextPage = getCurrentPage() + 1;
+                    setCurrentPage(nextPage);
+                }
+                tableController.changePage(getCurrentPage(), getRecodesAmount());
+            }
+        });
+
+        getBtLastPage().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                setCurrentPage(getPagesAmount());
+                tableController.changePage(getCurrentPage(), getRecodesAmount());
+            }
+        });
+
+        getBtChangePagesAmount().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                tableController.changePage(getCurrentPage(), getRecodesAmount());
+            }
+        });
+    }
+
+
+    @Override
+    public void repaintPaging(int dataBaseSize) {
+        int recodesAmount = getRecodesAmount();
+        int pagesAmount = (int) Math.ceil((double) dataBaseSize / recodesAmount);
+        if (isNewPage(dataBaseSize)) {
+            setPagesAmount(pagesAmount);
+            setCurrentPage(pagesAmount);
+        }
+        tableController.changePage(getCurrentPage(), getRecodesAmount());
+    }
+
+    @Override
+    public void refreshPaging(int dataBaseSize) {
+        int recodesAmount = getRecodesAmount();
+        if (!tableController.getStudentDataBase().getStudents().isEmpty()) {
+            setPagesAmount((int) Math.ceil((double) dataBaseSize / recodesAmount));
+        }
+        if (getCurrentPage() > getPagesAmount()) {
+            setCurrentPage(getPagesAmount());
+        }
+        tableController.changePage(getCurrentPage(), getRecodesAmount());
+    }
+
+    @Override
+    public void updateData(List<Student> page) {
+        setPage(page);
+    }
+
+    @Override
+    public void createModel() {
+        tableModel = new TableModel(new ArrayList<Student>());
+        setTableModel(tableModel);
+        getToolBar().setVisible(true);
+    }
+
+
+
+    private boolean isNewPage(int dataBaseSize) {
+        int pagesAmount = getPagesAmount();
+        int recodesAmount = getRecodesAmount();
+        return recodesAmount <= dataBaseSize;
+//        return (pagesAmount - 1) * recodesAmount + recodesAmount <= dataBaseSize;
+    }
+
 
     private void setPaging(JToolBar toolBar) {
         toolBar.setFloatable(false);
@@ -44,88 +160,40 @@ public class TableWithPaging extends JComponent {
         JPanel recodesChangerPanel = new JPanel();
         recodesChangerPanel.setLayout(new FlowLayout());
 
-        spmRecodesNumber = new SpinnerNumberModel(5, 1, null, 1);
-        JSpinner spRecodesNumber = new JSpinner(spmRecodesNumber);
+        spmRecodesChanger = new SpinnerNumberModel(5, 1, null, 1);
+        JSpinner spRecodesNumber = new JSpinner(spmRecodesChanger);
         Dimension dimensionRN = spRecodesNumber.getPreferredSize();
         dimensionRN.width = 50;
         dimensionRN.height = 32;
         spRecodesNumber.setPreferredSize(dimensionRN);
 
-
-        spmPageChange = new SpinnerNumberModel(1, 1, 1, 1);
-        JSpinner spPageChange = new JSpinner(spmPageChange);
+        spmPageChanger = new SpinnerNumberModel(1, 1, 1, 1);
+        JSpinner spPageChange = new JSpinner(spmPageChanger);
         Dimension dimensionPC = spRecodesNumber.getPreferredSize();
         dimensionPC.width = 50;
         dimensionPC.height = 32;
         spPageChange.setPreferredSize(dimensionRN);
 
-        JButton btRecodesNumber = new JButton("Change recodes");
-        setIcon(btRecodesNumber, "changeRecodesAmount.png");
-        btRecodesNumber.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                setRecodesNumber((int) spRecodesNumber.getValue());
-                if (!studentDataBase.getStudents().isEmpty()) {
-                    setPagesNumber((int) Math.ceil((double) studentDataBase.getStudents().size() / recodesNumber));
-                }
-                if (currentPage > pagesNumber) {
-                    setCurrentPage(pagesNumber);
-                }
-                List<Student> page = studentDataBase.getPage(currentPage, recodesNumber);
-                tableModel.setStudents(page);
-                tableModel.fireTableDataChanged();
-            }
-        });
+        btChangeRecodesAmount = new JButton("Change recodes");
+        setIcon(btChangeRecodesAmount, "changeRecodesAmount.png");
 
         recodesChangerPanel.add(spRecodesNumber);
-        recodesChangerPanel.add(btRecodesNumber);
+        recodesChangerPanel.add(btChangeRecodesAmount);
 
         JPanel pageStatePanel = new JPanel();
         pageStatePanel.setLayout(new GridBagLayout());
 
-        JButton btFirstPage = new JButton();
+        btFirstPage = new JButton();
         setIcon(btFirstPage, "firstPage.png");
-        btFirstPage.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                setCurrentPage((int) spmPageChange.getMinimum());
-                updateTable();
-            }
-        });
 
-        JButton btPreviousPage = new JButton();
+        btPreviousPage = new JButton();
         setIcon(btPreviousPage, "previousPage.png");
-        btPreviousPage.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                if (currentPage != 1) {
-                    setCurrentPage(--currentPage);
-                    updateTable();
-                }
-            }
-        });
 
-        JButton btNextPage = new JButton();
+        btNextPage = new JButton();
         setIcon(btNextPage, "nextPage.png");
-        btNextPage.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                if (currentPage != pagesNumber) {
-                    setCurrentPage(++currentPage);
-                    updateTable();
-                }
-            }
-        });
 
-        JButton btLastPage = new JButton();
+        btLastPage = new JButton();
         setIcon(btLastPage, "lastPage.png");
-        btLastPage.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                setCurrentPage((int) spmPageChange.getMaximum());
-                updateTable();
-            }
-        });
 
         addComponent(pageStatePanel, btFirstPage, 0, 0, 1, 1);
         addComponent(pageStatePanel, btPreviousPage, GridBagConstraints.RELATIVE, 0, 1, 1);
@@ -135,19 +203,9 @@ public class TableWithPaging extends JComponent {
         JPanel pageChangerPanel = new JPanel();
         pageChangerPanel.setLayout(new FlowLayout());
 
-        JButton btPageChange = new JButton("Change page");
-        setIcon(btPageChange, "changePage.png");
-        btPageChange.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                currentPage = (int) spmPageChange.getValue();
-                List<Student> page = studentDataBase.getPage(currentPage, recodesNumber);
-                tableModel.setStudents(page);
-                tableModel.fireTableDataChanged();
-            }
-        });
+        btChangePagesAmount = new JButton("Change page");
 
-        pageChangerPanel.add(btPageChange);
+        pageChangerPanel.add(btChangePagesAmount);
         pageChangerPanel.add(spPageChange);
 
         toolBar.add(recodesChangerPanel, BorderLayout.WEST);
@@ -168,24 +226,6 @@ public class TableWithPaging extends JComponent {
         container.add(component, gbc);
     }
 
-    public void updateTable() {
-        if (isNewPage()) {
-            setPagesNumber((int) Math.ceil((double) studentDataBase.getStudents().size() / recodesNumber));
-            setCurrentPage(pagesNumber);
-        } else {
-            setPagesNumber((Integer) spmPageChange.getMinimum());
-            setCurrentPage(pagesNumber);
-        }
-        List<Student> page = studentDataBase.getPage(currentPage, recodesNumber);
-        tableModel.setStudents(page);
-        tableModel.fireTableDataChanged();
-    }
-
-    private boolean isNewPage() {
-        return (pagesNumber - 1) * recodesNumber + recodesNumber <= studentDataBase.getStudents().size();
-    }
-
-
     public JTable getTable() {
         return table;
     }
@@ -203,41 +243,6 @@ public class TableWithPaging extends JComponent {
         table.setModel(tableModel);
     }
 
-    public StudentDataBase getStudentDataBase() {
-        return studentDataBase;
-    }
-
-    public void setStudentDataBase(StudentDataBase studentDataBase) {
-        this.studentDataBase = studentDataBase;
-    }
-
-    public int getRecodesNumber() {
-        return recodesNumber;
-    }
-
-    public void setRecodesNumber(int recodesNumber) {
-        this.recodesNumber = recodesNumber;
-        spmRecodesNumber.setValue(recodesNumber);
-    }
-
-    public int getPagesNumber() {
-        return pagesNumber;
-    }
-
-    public void setPagesNumber(int pagesNumber) {
-        this.pagesNumber = pagesNumber;
-        spmPageChange.setMaximum(pagesNumber);
-    }
-
-    public int getCurrentPage() {
-        return currentPage;
-    }
-
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-        spmPageChange.setValue(currentPage);
-    }
-
     public JToolBar getToolBar() {
         return toolBar;
     }
@@ -245,4 +250,84 @@ public class TableWithPaging extends JComponent {
     public void setToolBar(JToolBar toolBar) {
         this.toolBar = toolBar;
     }
+
+    public JButton getBtChangeRecodesAmount() {
+        return btChangeRecodesAmount;
+    }
+
+    public void setBtChangeRecodesAmount(JButton btChangeRecodesAmount) {
+        this.btChangeRecodesAmount = btChangeRecodesAmount;
+    }
+
+    public JButton getBtFirstPage() {
+        return btFirstPage;
+    }
+
+    public void setBtFirstPage(JButton btFirstPage) {
+        this.btFirstPage = btFirstPage;
+    }
+
+    public JButton getBtLastPage() {
+        return btLastPage;
+    }
+
+    public void setBtLastPage(JButton btLastPage) {
+        this.btLastPage = btLastPage;
+    }
+
+    public JButton getBtPreviousPage() {
+        return btPreviousPage;
+    }
+
+    public void setBtPreviousPage(JButton btPreviousPage) {
+        this.btPreviousPage = btPreviousPage;
+    }
+
+    public JButton getBtNextPage() {
+        return btNextPage;
+    }
+
+    public void setBtNextPage(JButton btNextPage) {
+        this.btNextPage = btNextPage;
+    }
+
+    public JButton getBtChangePagesAmount() {
+        return btChangePagesAmount;
+    }
+
+    public void setBtChangePagesAmount(JButton btChangePagesAmount) {
+        this.btChangePagesAmount = btChangePagesAmount;
+    }
+
+    public void setPage(List<Student> page) {
+        tableModel.setStudents(page);
+        tableModel.fireTableDataChanged();
+    }
+
+    public int getRecodesAmount() {
+        return (int) spmRecodesChanger.getValue();
+    }
+
+    public void setRecodesAmount(int recodesAmount) {
+        spmRecodesChanger.setValue(recodesAmount);
+    }
+
+    public int getCurrentPage() {
+        return (int) spmPageChanger.getValue();
+    }
+
+    public void setCurrentPage(int currentPage) {
+        spmPageChanger.setValue(currentPage);
+    }
+
+    public int getPagesAmount() {
+        return (int) spmPageChanger.getMaximum();
+    }
+
+    public void setPagesAmount(int pagesAmount) {
+        spmPageChanger.setMaximum(pagesAmount);
+    }
+
+
+
 }

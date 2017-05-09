@@ -2,6 +2,7 @@ package tableListener;
 
 import studentTable.AdditionStudentDialog;
 import studentTable.TableWithPaging;
+import tableController.TableController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,16 +13,15 @@ import java.awt.event.ActionListener;
  */
 public class AdditionStudentListener implements ActionListener {
     private JFrame mainFrame;
-    private TableWithPaging tableWithPaging;
-    AdditionStudentDialog additionStudentDialog;
+    private TableController tableController;
 
-    public AdditionStudentListener(JFrame mainFrame, TableWithPaging tableWithPaging) {
+    public AdditionStudentListener(JFrame mainFrame, TableController tableController) {
         this.mainFrame = mainFrame;
-        this.tableWithPaging = tableWithPaging;
+        this.tableController = tableController;
     }
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        additionStudentDialog = new AdditionStudentDialog(mainFrame, tableWithPaging);
+        new AdditionStudentDialog(mainFrame, tableController);
     }
 }

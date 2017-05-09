@@ -10,12 +10,13 @@ public class Student {
     private Mother mother;
     private Father father;
     private int brothersAmount;
-    private int sistersAMount;
+    private int sistersAmount;
 
     public Student() {
         father = new Father();
         mother = new Mother();
     }
+
 
     public Object getField(int columnIndex) {
         if (columnIndex == 0) {
@@ -34,7 +35,7 @@ public class Student {
         } else if (columnIndex == 5) {
             return brothersAmount;
         } else if (columnIndex == 6) {
-            return sistersAMount;
+            return sistersAmount;
         } else {
             return null;
         }
@@ -113,10 +114,10 @@ public class Student {
     }
 
     public int getSistersAmount() {
-        return sistersAMount;
+        return sistersAmount;
     }
 
     public void setSistersAmount(int numberOfSisters) {
-        this.sistersAMount = numberOfSisters;
+        this.sistersAmount = numberOfSisters;
     }
 }

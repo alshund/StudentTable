@@ -1,7 +1,10 @@
 package studentTable;
 
+import selectStrategy.*;
+import selectStrategy.algoritms.*;
 import studentDataBase.Student;
 import studentDataBase.StudentDataBase;
+import tableController.TableController;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,18 +19,23 @@ import java.util.regex.Pattern;
  */
 public class SearchStudentDialog {
     private JDialog searchStudentDialog;
-    private TableWithPaging searchTable;
     private SearchPanel searchPanel;
-    private StudentDataBase studentDataBase;
 
-    public SearchStudentDialog(JFrame mainFrame, TableWithPaging tableWithPaging) {
-        studentDataBase = tableWithPaging.getStudentDataBase();
+    private StudentDataBase searchDataBase;
+    private TableController searchController;
+    private TableWithPaging searchTable;
+
+    private TableController tableController;
+
+
+    public SearchStudentDialog(JFrame mainFrame, TableController tableController) {
+        this.tableController = tableController;
 
         searchStudentDialog = new JDialog(mainFrame, "Search student", true);
         searchStudentDialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
         searchStudentDialog.setSize(1000, 650);
         searchStudentDialog.setLayout(new BorderLayout());
-        searchStudentDialog.setLocationRelativeTo(tableWithPaging);
+        searchStudentDialog.setLocationRelativeTo(mainFrame);
 
         JPanel dialogPanel = new JPanel();
         dialogPanel.setLayout(new GridBagLayout());
@@ -35,11 +43,10 @@ public class SearchStudentDialog {
         searchPanel = new SearchPanel();
         addComponent(dialogPanel, searchPanel.getSearchPanel(), 0, 0, 1);
 
-        searchTable = new TableWithPaging();
-        searchTable.setCurrentPage(1);
-        searchTable.setPagesNumber(1);
-        searchTable.setRecodesNumber(5);
-        searchTable.setStudentDataBase(new StudentDataBase());
+        searchDataBase = new StudentDataBase();
+        searchController = new TableController(searchDataBase);
+        searchTable = new TableWithPaging(searchController);
+
         searchTable.setTableModel(new TableModel(new ArrayList<Student>()));
         searchTable.getToolBar().setVisible(true);
         addComponent(dialogPanel, searchTable, 1, 0, 2);
@@ -63,27 +70,6 @@ public class SearchStudentDialog {
     class SearchButtonListener implements ActionListener {
         List<Student> studentList;
 
-        boolean isStudSNSelected;
-        boolean isStudFNSelected;
-        boolean isStudPTSelected;
-        boolean isParSNSelected;
-        boolean isParFNSelected;
-        boolean isParPTSelected;
-        boolean isLowerLimitSelected;
-        boolean isUpperLimitSelected;
-
-        String studSN;
-        String studFN;
-        String studPT;
-
-        String parSN;
-        String parFN;
-        String parPT;
-
-        double lowerLimit;
-        double upperLimit;
-
-        int siblingAmount;
 
         public SearchButtonListener() {
             studentList = new ArrayList<Student>();
@@ -91,187 +77,45 @@ public class SearchStudentDialog {
 
         @Override
         public void actionPerformed(ActionEvent event) {
-            boolean isFound = false;
-            if (searchPanel.getRbStudent().isSelected()) {
-                if (isValid(searchPanel.STUDENT_SURNAME, searchPanel.STUDENT_FIRST_NAME, searchPanel.STUDENT_PATRONYMIC)) {
-                    isFound = true;
-                    setStudCbSelected();
-                    setStudValue();
-                    if (isStudSNSelected && isStudFNSelected && isStudPTSelected) {
-                        studentList = studentDataBase.studentSnFnPtSearch(studSN, studFN, studPT);
-                    } else if (isStudSNSelected && isStudFNSelected) {
-                        studentList = studentDataBase.studentSnFnSearch(studSN, studFN);
-                    } else if (isStudSNSelected && isStudPTSelected) {
-                        studentList = studentDataBase.studentSnPtSearch(studSN, studPT);
-                    } else if (isStudFNSelected && isStudPTSelected) {
-                        studentList = studentDataBase.studentFnPtSearch(studFN, studPT);
-                    } else if (isStudSNSelected) {
-                        studentList = studentDataBase.studentSnSearch(studSN);
-                    } else if (isStudFNSelected) {
-                        studentList = studentDataBase.studentFnSearch(studFN);
-                    } else if (isStudPTSelected) {
-                        studentList = studentDataBase.studentPtSearch(studPT);
+            SelectStrategy selectStrategy = null;
+            boolean found = false;
+            for (JRadioButton radioButton : searchPanel.getRadioButtonList()) {
+                if (radioButton.isSelected()) {
+                    if (radioButton.getName().equals("Student")) {
+                        selectStrategy = new StudentNameSelect(searchPanel);
+                        break;
+                    } else if (radioButton.getName().equals("Father")) {
+                        selectStrategy = new FatherNameSelect(searchPanel);
+                        break;
+                    } else if (radioButton.getName().equals("Mother")) {
+                        selectStrategy = new MotherNameSelect(searchPanel);
+                        break;
+                    } else if (radioButton.getName().equals("FatherSalary")) {
+                        selectStrategy = new FatherSalarySelect(searchPanel);
+                        break;
+                    } else if (radioButton.getName().equals("MotherSalary")) {
+                        selectStrategy = new MotherSalarySelect(searchPanel);
+                        break;
+                    } else if (radioButton.getName().equals("BrotherAmount")) {
+                        selectStrategy = new BrotherAmountSelect(searchPanel);
+                        break;
+                    } else if (radioButton.getName().equals("SisterAmount")) {
+                        selectStrategy = new SisterAmountSelect(searchPanel);
+                        break;
                     }
-                    searchTable.getStudentDataBase().setStudents(studentList);
-                    searchTable.updateTable();
                 }
-            } else if (searchPanel.getRbFather().isSelected()) {
-                if (isValid(searchPanel.PARENT_SURNAME, searchPanel.PARENT_FIRST_NAME, searchPanel.PARENT_PATRONYMIC)) {
-                    isFound = true;
-                    setParCdSelected();
-                    setParValue();
-                    if (isParSNSelected && isParFNSelected && isParPTSelected) {
-                        studentList = studentDataBase.fatherSnFnPtSearch(parSN, parFN, parPT);
-                    } else if (isParSNSelected && isParFNSelected) {
-                        studentList = studentDataBase.fatherSnFnSearch(parSN, parFN);
-                    } else if (isParSNSelected && isParPTSelected) {
-                        studentList = studentDataBase.fatherSnPtSearch(parSN, parPT);
-                    } else if (isParFNSelected && isParPTSelected) {
-                        studentList = studentDataBase.fatherFnPtSearch(parFN, parPT);
-                    } else if (isParSNSelected) {
-                        studentList = studentDataBase.fatherSnSearch(parSN);
-                    } else if (isParFNSelected) {
-                        studentList = studentDataBase.fatherFnSearch(parFN);
-                    } else if (isParPTSelected) {
-                        studentList = studentDataBase.fatherPtSearch(parPT);
-                    }
-                    searchTable.getStudentDataBase().setStudents(studentList);
-                    searchTable.updateTable();
-                }
-            } else if (searchPanel.getRbMother().isSelected()) {
-                if (isValid(searchPanel.PARENT_SURNAME, searchPanel.PARENT_FIRST_NAME, searchPanel.PARENT_PATRONYMIC)) {
-                    isFound = true;
-                    setParCdSelected();
-                    setParValue();
-                    if (isParSNSelected && isParFNSelected && isParPTSelected) {
-                        studentList = studentDataBase.motherSnFnPtSearch(parSN, parFN, parPT);
-                    } else if (isParSNSelected && isParFNSelected) {
-                        studentList = studentDataBase.motherSnFnSearch(parSN, parFN);
-                    } else if (isParSNSelected && isParPTSelected) {
-                        studentList = studentDataBase.motherSnPtSearch(parSN, parPT);
-                    } else if (isParFNSelected && isParPTSelected) {
-                        studentList = studentDataBase.motherFnPtSearch(parFN, parPT);
-                    } else if (isParSNSelected) {
-                        studentList = studentDataBase.motherSnSearch(parSN);
-                    } else if (isParFNSelected) {
-                        studentList = studentDataBase.motherFnSearch(parFN);
-                    } else if (isParPTSelected) {
-                        studentList = studentDataBase.motherPtSearch(parPT);
-                    }
-                    searchTable.getStudentDataBase().setStudents(studentList);
-                    searchTable.updateTable();
-                }
-            } else if (searchPanel.getRbFatherSalary().isSelected()) {
-                isFound = true;
-                setSalCdSelected();
-                setSalValue();
-                if (isLowerLimitSelected && isUpperLimitSelected) {
-                    studentList = studentDataBase.fatherLowUppSalarySearch(lowerLimit, upperLimit);
-                } else if (isLowerLimitSelected) {
-                    studentList = studentDataBase.fatherLowSalarySearch(lowerLimit);
-                } else if (isUpperLimitSelected) {
-                    studentList = studentDataBase.fatherUppSalarySearch(upperLimit);
-                }
-                searchTable.getStudentDataBase().setStudents(studentList);
-                searchTable.updateTable();
-            } else if (searchPanel.getRbMotherSalary().isSelected()) {
-                isFound = true;
-                setSalCdSelected();
-                setSalValue();
-                if (isLowerLimitSelected && isUpperLimitSelected) {
-                    studentList = studentDataBase.motherLowUppSalarySearch(lowerLimit, upperLimit);
-                } else if (isLowerLimitSelected) {
-                    studentList = studentDataBase.motherLowSalarySearch(lowerLimit);
-                } else if (isUpperLimitSelected) {
-                    studentList = studentDataBase.motherUppSalarySearch(upperLimit);
-                }
-                searchTable.getStudentDataBase().setStudents(studentList);
-                searchTable.updateTable();
-            } else if (searchPanel.getRbBrotherNumber().isSelected()) {
-                isFound = true;
-                setSiblingAmountValue();
-                studentList = studentDataBase.brothersAmountSearch(siblingAmount);
-                searchTable.getStudentDataBase().setStudents(studentList);
-                searchTable.updateTable();
-            } else if (searchPanel.getRbSisterNumber().isSelected()) {
-                isFound = true;
-                setSiblingAmountValue();
-                studentList = studentDataBase.sistersAmountSearch(siblingAmount);
-                searchTable.getStudentDataBase().setStudents(studentList);
-                searchTable.updateTable();
             }
-            if (isFound) {
+            tableController.setSearchStrategy(selectStrategy.execute());
+            if (tableController.getSearchStrategy() != null) {
+                found = true;
+                studentList = tableController.search();
+                searchDataBase.setStudents(studentList);
+                tableController.setSearchStrategy(null);
+            }
+
+            if (found) {
                 JOptionPane.showMessageDialog(searchStudentDialog, "Found " + studentList.size() + " students", "Search", JOptionPane.INFORMATION_MESSAGE);
             }
-        }
-
-        private boolean isValid(int surname, int firstName, int patronymic) {
-            boolean isValid = true;
-            Pattern nameField = Pattern.compile("([А-Я])[а-я]+");
-            JCheckBox cbSurname = searchPanel.getCheckBox(surname);
-            JCheckBox cbFirstName = searchPanel.getCheckBox(firstName);
-            JCheckBox cbPatronymic = searchPanel.getCheckBox(patronymic);
-            JTextField tfSurname = (JTextField) searchPanel.getInputFieldList().get(surname);
-            JTextField tfFirstName = (JTextField) searchPanel.getInputFieldList().get(firstName);
-            JTextField tfPatronymic = (JTextField) searchPanel.getInputFieldList().get(patronymic);
-            if (!cbSurname.isSelected() && !cbFirstName.isSelected() && !cbPatronymic.isSelected()) {
-                isValid = false;
-                JOptionPane.showMessageDialog(searchStudentDialog, "Select the search parameter", "Parameter error", JOptionPane.ERROR_MESSAGE);
-            } else if (!nameField.matcher(tfSurname.getText()).matches() && cbSurname.isSelected()) {
-                isValid = false;
-                showMassage(tfSurname, tfSurname.getName());
-            } else if (!nameField.matcher(tfFirstName.getText()).matches() && cbFirstName.isSelected()) {
-                isValid = false;
-                showMassage(tfFirstName, tfFirstName.getName());
-            } else if (!nameField.matcher(tfPatronymic.getText()).matches() && cbPatronymic.isSelected()) {
-                isValid = false;
-                showMassage(tfPatronymic, tfPatronymic.getName());
-            }
-            return isValid;
-        }
-
-        private void showMassage(JTextField textField, String mistakeName) {
-            JOptionPane.showMessageDialog(searchStudentDialog, mistakeName + " was incorrectly entered!");
-            textField.setText("");
-            textField.requestFocus();
-        }
-
-        private void setStudCbSelected() {
-            isStudSNSelected = searchPanel.getCheckBox(searchPanel.STUDENT_SURNAME).isSelected();
-            isStudFNSelected = searchPanel.getCheckBox(searchPanel.STUDENT_FIRST_NAME).isSelected();
-            isStudPTSelected = searchPanel.getCheckBox(searchPanel.STUDENT_PATRONYMIC).isSelected();
-        }
-
-        private void setParCdSelected() {
-            isParSNSelected = searchPanel.getCheckBox(searchPanel.PARENT_SURNAME).isSelected();
-            isParFNSelected = searchPanel.getCheckBox(searchPanel.PARENT_FIRST_NAME).isSelected();
-            isParPTSelected = searchPanel.getCheckBox(searchPanel.PARENT_PATRONYMIC).isSelected();
-        }
-
-        private void setSalCdSelected() {
-            isLowerLimitSelected = searchPanel.getCheckBox(searchPanel.SALARY_LOWER_LIMIT).isSelected();
-            isUpperLimitSelected = searchPanel.getCheckBox(searchPanel.SALARY_UPPER_LIMIT).isSelected();
-        }
-
-        private void setStudValue() {
-            studSN = (String) searchPanel.getInputFieldValue(searchPanel.STUDENT_SURNAME);
-            studFN = (String) searchPanel.getInputFieldValue(searchPanel.STUDENT_FIRST_NAME);
-            studPT = (String) searchPanel.getInputFieldValue(searchPanel.STUDENT_PATRONYMIC);
-        }
-
-        private void setParValue() {
-            parSN = (String) searchPanel.getInputFieldValue(searchPanel.PARENT_SURNAME);
-            parFN = (String) searchPanel.getInputFieldValue(searchPanel.PARENT_FIRST_NAME);
-            parPT = (String) searchPanel.getInputFieldValue(searchPanel.PARENT_PATRONYMIC);
-        }
-
-        private void setSalValue() {
-            lowerLimit = (double) searchPanel.getInputFieldValue(searchPanel.SALARY_LOWER_LIMIT);
-            upperLimit = (double) searchPanel.getInputFieldValue(searchPanel.SALARY_UPPER_LIMIT);
-        }
-
-        private void setSiblingAmountValue() {
-            int siblingAmount = (int) searchPanel.getInputFieldValue(searchPanel.SIBLING_AMOUNT);
         }
     }
 }

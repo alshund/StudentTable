@@ -2,6 +2,7 @@ package tableListener;
 
 import studentTable.DeleteStudentDialog;
 import studentTable.TableWithPaging;
+import tableController.TableController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,16 +13,15 @@ import java.awt.event.ActionListener;
  */
 public class DeleteStudentListener implements ActionListener {
     private JFrame mainFrame;
-    private TableWithPaging tableWithPaging;
-    DeleteStudentDialog deleteStudentDialog;
+    private TableController tableController;
 
-    public DeleteStudentListener(JFrame mainFrame, TableWithPaging tableWithPaging) {
+    public DeleteStudentListener(JFrame mainFrame, TableController tableController) {
         this.mainFrame = mainFrame;
-        this.tableWithPaging = tableWithPaging;
+        this.tableController = tableController;
     }
 
     @Override
     public void actionPerformed(ActionEvent event) {
-        deleteStudentDialog = new DeleteStudentDialog(mainFrame, tableWithPaging);
+        new DeleteStudentDialog(mainFrame, tableController);
     }
 }

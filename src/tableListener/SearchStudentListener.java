@@ -2,6 +2,7 @@ package tableListener;
 
 import studentTable.SearchStudentDialog;
 import studentTable.TableWithPaging;
+import tableController.TableController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -12,14 +13,14 @@ import java.awt.event.ActionListener;
  */
 public class SearchStudentListener implements ActionListener {
     private JFrame mainFrame;
-    private TableWithPaging tableWithPaging;
+    private TableController tableController;
 
-    public SearchStudentListener(JFrame mainFrame, TableWithPaging tableWithPaging){
+    public SearchStudentListener(JFrame mainFrame, TableController tableController){
         this.mainFrame = mainFrame;
-        this.tableWithPaging = tableWithPaging;
+        this.tableController = tableController;
     }
     @Override
     public void actionPerformed(ActionEvent event) {
-        SearchStudentDialog searchStudentDialog = new SearchStudentDialog(mainFrame, tableWithPaging);
+        new SearchStudentDialog(mainFrame, tableController);
     }
 }

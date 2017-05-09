@@ -5,10 +5,11 @@ import org.w3c.dom.Element;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
+import studentDataBase.Father;
+import studentDataBase.Mother;
 import studentDataBase.Student;
 import studentDataBase.StudentDataBase;
-import studentTable.TableModel;
-import studentTable.TableWithPaging;
+import tableController.TableController;
 
 import javax.swing.*;
 import javax.xml.parsers.*;
@@ -29,30 +30,25 @@ import java.util.List;
 public class FileHandler {
     public static final String TAG_TABLE = "Table";
     public static final String TAG_STUDENT = "Student";
-    public static final String TAG_STUDENT_SN = "StudentSurname";
-    public static final String TAG_STUDENT_FN = "StudentFirstName";
-    public static final String TAG_STUDENT_PT = "StudentPatronymic";
-    public static final String TAG_FATHER_SN = "FatherSurname";
-    public static final String TAG_FATHER_FN = "FatherFirstName";
-    public static final String TAG_FATHER_PT = "FatherPatronymic";
-    public static final String TAG_FATHER_SALARY = "FatherSalary";
-    public static final String TAG_MOTHER_SN = "MotherSurname";
-    public static final String TAG_MOTHER_FN = "MotherFirstName";
-    public static final String TAG_MOTHER_PT = "MotherPatronymic";
-    public static final String TAG_MOTHER_SALARY = "MotherSalary";
+    public static final String TAG_FATHER = "Father";
+    public static final String TAG_MOTHER = "Mother";
+    public static final String TAG_SURNAME = "Surname";
+    public static final String TAG_FIRST_NAME = "FirstName";
+    public static final String TAG_PATRONYMIC = "Patronymic";
+    public static final String TAG_SALARY = "Salary";
     public static final String TAG_BROTHERS_AMOUNT = "BrothersAmount";
     public static final String TAG_SISTERS_AMOUNT = "SistersAmount";
 
-    private TableWithPaging tableWithPaging;
+    private TableController tableController;
     private Element element;
 
-    public FileHandler(TableWithPaging tableWithPaging) {
-        this.tableWithPaging = tableWithPaging;
+    public FileHandler(TableController tableController) {
+        this.tableController = tableController;
     }
 
     public void saveFile() throws ParserConfigurationException, TransformerException {
         JFileChooser fileChooser = new JFileChooser();
-        if (fileChooser.showOpenDialog(tableWithPaging) == JFileChooser.APPROVE_OPTION) {
+        if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = dbf.newDocumentBuilder();
             Document document = documentBuilder.newDocument();
@@ -60,54 +56,60 @@ public class FileHandler {
             element = document.createElement(TAG_TABLE);
             document.appendChild(element);
 
-            List<Student> studentList = tableWithPaging.getStudentDataBase().getStudents();
+            List<Student> studentList = tableController.getStudentDataBase().getStudents();
 
             for (Student student : studentList) {
                 Element newStudent = document.createElement(TAG_STUDENT);
 
-                Element newStudentSN = document.createElement(TAG_STUDENT_SN);
+                Element newStudentSN = document.createElement(TAG_SURNAME);
                 newStudentSN.appendChild(document.createTextNode(student.getSurname()));
                 newStudent.appendChild(newStudentSN);
 
-                Element newStudentFN = document.createElement(TAG_STUDENT_FN);
+                Element newStudentFN = document.createElement(TAG_FIRST_NAME);
                 newStudentFN.appendChild(document.createTextNode(student.getFirstName()));
                 newStudent.appendChild(newStudentFN);
 
-                Element newStudentPT = document.createElement(TAG_STUDENT_PT);
+                Element newStudentPT = document.createElement(TAG_PATRONYMIC);
                 newStudentPT.appendChild(document.createTextNode(student.getPatronymic()));
                 newStudent.appendChild(newStudentPT);
 
-                Element newFatherSN = document.createElement(TAG_FATHER_SN);
+                Element newFather = document.createElement(TAG_FATHER);
+                newStudent.appendChild(newFather);
+
+                Element newFatherSN = document.createElement(TAG_SURNAME);
                 newFatherSN.appendChild(document.createTextNode(student.getFather().getSurname()));
-                newStudent.appendChild(newFatherSN);
+                newFather.appendChild(newFatherSN);
 
-                Element newFatherFN = document.createElement(TAG_FATHER_FN);
+                Element newFatherFN = document.createElement(TAG_FIRST_NAME);
                 newFatherFN.appendChild(document.createTextNode(student.getFather().getFirstName()));
-                newStudent.appendChild(newFatherFN);
+                newFather.appendChild(newFatherFN);
 
-                Element newFatherPT = document.createElement(TAG_FATHER_PT);
+                Element newFatherPT = document.createElement(TAG_PATRONYMIC);
                 newFatherPT.appendChild(document.createTextNode(student.getFather().getPatronymic()));
-                newStudent.appendChild(newFatherPT);
+                newFather.appendChild(newFatherPT);
 
-                Element newFatherSalary = document.createElement(TAG_FATHER_SALARY);
+                Element newFatherSalary = document.createElement(TAG_SALARY);
                 newFatherSalary.appendChild(document.createTextNode(String.valueOf(student.getFather().getSalary())));
-                newStudent.appendChild(newFatherSalary);
+                newFather.appendChild(newFatherSalary);
 
-                Element newMotherSN = document.createElement(TAG_MOTHER_SN);
+                Element newMother = document.createElement(TAG_MOTHER);
+                newStudent.appendChild(newMother);
+
+                Element newMotherSN = document.createElement(TAG_SURNAME);
                 newMotherSN.appendChild(document.createTextNode(student.getMother().getSurname()));
-                newStudent.appendChild(newMotherSN);
+                newMother.appendChild(newMotherSN);
 
-                Element newMotherFN = document.createElement(TAG_MOTHER_FN);
+                Element newMotherFN = document.createElement(TAG_FIRST_NAME);
                 newMotherFN.appendChild(document.createTextNode(student.getMother().getFirstName()));
-                newStudent.appendChild(newMotherFN);
+                newMother.appendChild(newMotherFN);
 
-                Element newMotherPT = document.createElement(TAG_MOTHER_PT);
+                Element newMotherPT = document.createElement(TAG_PATRONYMIC);
                 newMotherPT.appendChild(document.createTextNode(student.getMother().getPatronymic()));
-                newStudent.appendChild(newMotherPT);
+                newMother.appendChild(newMotherPT);
 
-                Element newMotherSalary = document.createElement(TAG_MOTHER_SALARY);
+                Element newMotherSalary = document.createElement(TAG_SALARY);
                 newMotherSalary.appendChild(document.createTextNode(String.valueOf(student.getMother().getSalary())));
-                newStudent.appendChild(newMotherSalary);
+                newMother.appendChild(newMotherSalary);
 
                 Element newBrothersAmount = document.createElement(TAG_BROTHERS_AMOUNT);
                 newBrothersAmount.appendChild(document.createTextNode(String.valueOf(student.getBrothersAmount())));
@@ -128,19 +130,23 @@ public class FileHandler {
         }
     }
 
-    public void openFile() throws ParserConfigurationException, SAXException, IOException {
+    public boolean openFile() throws ParserConfigurationException, SAXException, IOException {
         JFileChooser fileChooser = new JFileChooser();
-        if (fileChooser.showOpenDialog(tableWithPaging) == JFileChooser.APPROVE_OPTION) {
+        if (fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
             SAXParserFactory saxParserFactory = SAXParserFactory.newInstance();
             SAXParser saxParser = saxParserFactory.newSAXParser();
             saxParser.parse(fileChooser.getSelectedFile().getPath(), new Parser());
+            return true;
         }
+
+        return false;
     }
 
     class Parser extends DefaultHandler {
         private Student student;
         private List<Student> studentList;
-        private String tagName;
+        private String currentTagName;
+        private String previousTagName;
 
         public Parser() {
         }
@@ -148,31 +154,29 @@ public class FileHandler {
         @Override
         public void startDocument() throws SAXException {
             super.startDocument();
-            tableWithPaging.setStudentDataBase(new StudentDataBase());
         }
 
         @Override
         public void endDocument() throws SAXException {
             super.endDocument();
-            tableWithPaging.getStudentDataBase().setStudents(studentList);
-            tableWithPaging.setTableModel(new TableModel(studentList));
+            tableController.getStudentDataBase().setStudents(studentList);
 
-            tableWithPaging.setRecodesNumber(5);
-            tableWithPaging.setPagesNumber(1);
-            tableWithPaging.setCurrentPage(1);
-
-            tableWithPaging.getToolBar().setVisible(true);
-            tableWithPaging.updateTable();
         }
 
         @Override
         public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
-            tagName = qName;
+            System.out.println(uri);
+            currentTagName = qName;
             if (qName.equals(TAG_TABLE)) {
                 studentList = new ArrayList<Student>();
             } else if (qName.equals(TAG_STUDENT)) {
                 student = new Student();
                 studentList.add(student);
+                previousTagName = qName;
+            } else if (qName.equals(TAG_FATHER)) {
+                previousTagName = qName;
+            } else if (qName.equals(TAG_MOTHER)) {
+                previousTagName = qName;
             }
             super.startElement(uri, localName, qName, attributes);
         }
@@ -184,31 +188,31 @@ public class FileHandler {
 
         @Override
         public void characters(char[] ch, int start, int length) throws SAXException {
-            if (tagName.equals(TAG_STUDENT_SN)) {
+            if (currentTagName.equals(TAG_SURNAME) && !previousTagName.equals(TAG_MOTHER) && !previousTagName.equals(TAG_FATHER)) {
                 student.setSurname(new String(ch, start, length));
-            } else if (tagName.equals(TAG_STUDENT_FN)) {
+            } else if (currentTagName.equals(TAG_FIRST_NAME) && !previousTagName.equals(TAG_MOTHER) && !previousTagName.equals(TAG_FATHER)) {
                 student.setFirstName(new String(ch, start, length));
-            } else if (tagName.equals(TAG_STUDENT_PT)) {
+            } else if (currentTagName.equals(TAG_PATRONYMIC) && !previousTagName.equals(TAG_MOTHER) && !previousTagName.equals(TAG_FATHER)) {
                 student.setPatronymic(new String(ch, start, length));
-            } else if (tagName.equals(TAG_FATHER_SN)) {
+            } else if (currentTagName.equals(TAG_SURNAME) && previousTagName.equals(TAG_FATHER)) {
                 student.getFather().setSurname(new String(ch, start, length));
-            } else if (tagName.equals(TAG_FATHER_FN)) {
+            } else if (currentTagName.equals(TAG_FIRST_NAME) && previousTagName.equals(TAG_FATHER)) {
                 student.getFather().setFirstName(new String(ch, start, length));
-            } else if (tagName.equals(TAG_FATHER_PT)) {
+            } else if (currentTagName.equals(TAG_PATRONYMIC) && previousTagName.equals(TAG_FATHER)) {
                 student.getFather().setPatronymic(new String(ch, start, length));
-            } else if (tagName.equals(TAG_FATHER_SALARY)) {
+            } else if (currentTagName.equals(TAG_SALARY) && previousTagName.equals(TAG_FATHER)) {
                 student.getFather().setSalary(Double.parseDouble(new String(ch, start, length)));
-            } else if (tagName.equals(TAG_MOTHER_SN)) {
+            } else if (currentTagName.equals(TAG_SURNAME) && previousTagName.equals(TAG_MOTHER)) {
                 student.getMother().setSurname(new String(ch, start, length));
-            } else if (tagName.equals(TAG_MOTHER_FN)) {
+            } else if (currentTagName.equals(TAG_FIRST_NAME) && previousTagName.equals(TAG_MOTHER)) {
                 student.getMother().setFirstName(new String(ch, start, length));
-            } else if (tagName.equals(TAG_MOTHER_PT)) {
+            } else if (currentTagName.equals(TAG_PATRONYMIC) && previousTagName.equals(TAG_MOTHER)) {
                 student.getMother().setPatronymic(new String(ch, start, length));
-            } else if (tagName.equals(TAG_MOTHER_SALARY)) {
+            } else if (currentTagName.equals(TAG_SALARY) && previousTagName.equals(TAG_MOTHER)) {
                 student.getMother().setSalary(Double.parseDouble(new String(ch, start, length)));
-            } else if (tagName.equals(TAG_BROTHERS_AMOUNT)) {
+            } else if (currentTagName.equals(TAG_BROTHERS_AMOUNT)) {
                 student.setBrothersAmount(Integer.parseInt(new String(ch, start, length)));
-            } else if (tagName.equals(TAG_SISTERS_AMOUNT)) {
+            } else if (currentTagName.equals(TAG_SISTERS_AMOUNT)) {
                 student.setSistersAmount(Integer.parseInt(new String(ch, start, length)));
             }
             super.characters(ch, start, length);
