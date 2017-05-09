@@ -6,7 +6,7 @@ import strategy.SearchStrategy;
 import strategy.algoritms.motherSalarySearch.MotherLwSearch;
 import strategy.algoritms.motherSalarySearch.MotherLwUpSearch;
 import strategy.algoritms.motherSalarySearch.MotherUpSearch;
-import studentTable.SearchPanel;
+import studentTable.dialog.SearchPanel;
 
 /**
  * Created by shund on 03.05.2017.

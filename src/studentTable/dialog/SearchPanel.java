@@ -1,4 +1,4 @@
-package studentTable;
+package studentTable.dialog;
 
 import javax.swing.*;
 import java.awt.*;
@@ -109,10 +109,11 @@ public class SearchPanel {
         cbStudentSurname.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent event) {
+                JTextField tfSurname = (JTextField) inputList.get(STUDENT_SURNAME);
                 if (cbStudentSurname.isSelected()) {
-                    inputList.get(STUDENT_SURNAME).setEnabled(true);
+                    tfSurname.setEnabled(true);
                 } else {
-                    inputList.get(STUDENT_SURNAME).setEnabled(false);
+                    tfSurname.setEnabled(false);
                 }
             }
         });
@@ -120,10 +121,11 @@ public class SearchPanel {
         cbStudentFirstName.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent event) {
+                JTextField tfSurname = (JTextField) inputList.get(STUDENT_FIRST_NAME);
                 if (cbStudentFirstName.isSelected()) {
-                    inputList.get(STUDENT_FIRST_NAME).setEnabled(true);
+                    tfSurname.setEnabled(true);
                 } else {
-                    inputList.get(STUDENT_FIRST_NAME).setEnabled(false);
+                    tfSurname.setEnabled(false);
                 }
             }
         });
@@ -131,10 +133,11 @@ public class SearchPanel {
         cbStudentPatronymic.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent event) {
+                JTextField tfPatronymic = (JTextField) inputList.get(STUDENT_PATRONYMIC);
                 if (cbStudentPatronymic.isSelected()) {
-                    inputList.get(STUDENT_PATRONYMIC).setEnabled(true);
+                    tfPatronymic.setEnabled(true);
                 } else {
-                    inputList.get(STUDENT_PATRONYMIC).setEnabled(false);
+                    tfPatronymic.setEnabled(false);
                 }
             }
         });
@@ -225,10 +228,11 @@ public class SearchPanel {
         cbParentSurname.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent event) {
+                JTextField tfSurname = (JTextField) inputList.get(PARENT_SURNAME);
                 if (cbParentSurname.isSelected()) {
-                    inputList.get(PARENT_SURNAME).setEnabled(true);
+                    tfSurname.setEnabled(true);
                 } else {
-                    inputList.get(PARENT_SURNAME).setEnabled(false);
+                    tfSurname.setEnabled(false);
                 }
             }
         });
@@ -236,10 +240,11 @@ public class SearchPanel {
         cbParentFirstName.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent event) {
+                JTextField tfFirstName = (JTextField) inputList.get(PARENT_FIRST_NAME);
                 if (cbParentFirstName.isSelected()) {
-                    inputList.get(PARENT_FIRST_NAME).setEnabled(true);
+                    tfFirstName.setEnabled(true);
                 } else {
-                    inputList.get(PARENT_FIRST_NAME).setEnabled(false);
+                    tfFirstName.setEnabled(false);
                 }
             }
         });
@@ -247,10 +252,11 @@ public class SearchPanel {
         cbParentPatronymic.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent event) {
+                JTextField tfPatronymic = (JTextField) inputList.get(PARENT_PATRONYMIC);
                 if (cbParentPatronymic.isSelected()) {
-                    inputList.get(PARENT_PATRONYMIC).setEnabled(true);
+                    tfPatronymic.setEnabled(true);
                 } else {
-                    inputList.get(PARENT_PATRONYMIC).setEnabled(false);
+                    tfPatronymic.setEnabled(false);
                 }
             }
         });
@@ -332,10 +338,11 @@ public class SearchPanel {
         cbLowerLimit.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent event) {
+                JSpinner spLowerLimit = (JSpinner) inputList.get(SALARY_LOWER_LIMIT);
                 if (cbLowerLimit.isSelected()) {
-                    inputList.get(SALARY_LOWER_LIMIT).setEnabled(true);
+                    spLowerLimit.setEnabled(true);
                 } else {
-                    inputList.get(SALARY_LOWER_LIMIT).setEnabled(false);
+                    spLowerLimit.setEnabled(false);
                 }
             }
         });
@@ -343,10 +350,11 @@ public class SearchPanel {
         cbUpperLimit.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent event) {
+                JSpinner spUpperLimit = (JSpinner) inputList.get(SALARY_UPPER_LIMIT);
                 if (cbUpperLimit.isSelected()) {
-                    inputList.get(SALARY_UPPER_LIMIT).setEnabled(true);
+                    spUpperLimit.setEnabled(true);
                 } else {
-                    inputList.get(SALARY_UPPER_LIMIT).setEnabled(false);
+                    spUpperLimit.setEnabled(false);
                 }
             }
         });
@@ -374,7 +382,7 @@ public class SearchPanel {
 
         SpinnerNumberModel spmBrStAmount = new SpinnerNumberModel(0, 0, null, 1);
         JSpinner spSiblingAmount = new JSpinner(spmBrStAmount);
-        spSiblingAmount.setName("Sibling Amount");
+        spSiblingAmount.setName("SiblingAmount");
         spSiblingAmount.setEnabled(false);
         inputList.add(spSiblingAmount);
         addComponent(siblingPanel, spSiblingAmount, 1, 1, 2, 1);
@@ -383,28 +391,11 @@ public class SearchPanel {
             @Override
             public void actionPerformed(ActionEvent event) {
                 for (JComponent component : inputList) {
-                    if (component.getName().equals("Sibling Amount")) {
+                    if (component.getName().equals("SiblingAmount")) {
                         component.setEnabled(true);
                     } else {
-                        int checkBoxPosition = inputList.indexOf(component);
-                        if (checkBoxPosition < checkBoxFieldList.size()){
-                            JCheckBox checkBox = (JCheckBox) checkBoxFieldList.get(checkBoxPosition);
-                            checkBox.setSelected(false);
-                            checkBox.setEnabled(false);
-                        }
                         component.setEnabled(false);
                     }
-                }
-            }
-        });
-
-        rbBrotherAmount.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent event) {
-                if (rbBrotherAmount.isSelected()) {
-                    spSiblingAmount.setEnabled(true);
-                } else {
-                    spSiblingAmount.setEnabled(false);
                 }
             }
         });
@@ -413,22 +404,11 @@ public class SearchPanel {
             @Override
             public void actionPerformed(ActionEvent event) {
                 for (JComponent component : inputList) {
-                    if (component.getName().equals("Sibling Amount")) {
+                    if (component.getName().equals("SiblingAmount")) {
                         component.setEnabled(true);
                     } else {
                         component.setEnabled(false);
                     }
-                }
-            }
-        });
-
-        rbSisterAmount.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(ItemEvent event) {
-                if(rbSisterAmount.isSelected()) {
-                    spSiblingAmount.setEnabled(true);
-                } else {
-                    spSiblingAmount.setEnabled(false);
                 }
             }
         });

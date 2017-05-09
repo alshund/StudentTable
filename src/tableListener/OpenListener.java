@@ -1,5 +1,6 @@
 package tableListener;
 
+import constants.Window;
 import org.xml.sax.SAXException;
 import studentTable.MainWindow;
 import studentTable.TableWithPaging;
@@ -41,11 +42,11 @@ public class OpenListener implements ActionListener {
         if (!toolBar.isVisible() && open) {
             toolBar.setVisible(true);
 
-            menuBar.getMenu(MainWindow.FILE_MENU).getItem(MainWindow.SAVE_FILE).setEnabled(true);
+            menuBar.getMenu(Window.FILE_MENU).getItem(Window.SAVE_FILE).setEnabled(true);
 
-            menuBar.getMenu(MainWindow.EDIT_MENU).getItem(MainWindow.ADD_EDIT).setEnabled(true);
-            menuBar.getMenu(MainWindow.EDIT_MENU).getItem(MainWindow.SEARCH_EDIT).setEnabled(true);
-            menuBar.getMenu(MainWindow.EDIT_MENU).getItem(MainWindow.DELETE_EDIT).setEnabled(true);
+            menuBar.getMenu(Window.EDIT_MENU).getItem(Window.ADD_EDIT).setEnabled(true);
+            menuBar.getMenu(Window.EDIT_MENU).getItem(Window.SEARCH_EDIT).setEnabled(true);
+            menuBar.getMenu(Window.EDIT_MENU).getItem(Window.DELETE_EDIT).setEnabled(true);
         }
     }
 }

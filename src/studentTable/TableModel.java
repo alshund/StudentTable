@@ -30,13 +30,6 @@ public class TableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         return students.get(rowIndex).getField(columnIndex);
-
-    }
-
-    @Override
-    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
-        Student student = students.get(rowIndex);
-        student.setField(columnIndex, aValue);
     }
 
     @Override

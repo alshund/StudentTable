@@ -1,9 +1,11 @@
-package studentTable;
+package studentTable.dialog;
 
 import selectStrategy.*;
 import selectStrategy.algoritms.*;
 import studentDataBase.Student;
 import studentDataBase.StudentDataBase;
+import studentTable.TableModel;
+import studentTable.TableWithPaging;
 import tableController.TableController;
 
 import javax.swing.*;
@@ -12,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.*;
 import java.util.List;
-import java.util.regex.Pattern;
 
 /**
  * Created by shund on 22.04.2017.
@@ -49,7 +50,7 @@ public class SearchStudentDialog {
 
         searchTable.setTableModel(new TableModel(new ArrayList<Student>()));
         searchTable.getToolBar().setVisible(true);
-        addComponent(dialogPanel, searchTable, 1, 0, 2);
+        addComponent(dialogPanel, searchTable.getTableWithPaging(), 1, 0, 2);
 
         JButton btSearch = new JButton("Search");
         btSearch.addActionListener(new SearchButtonListener());

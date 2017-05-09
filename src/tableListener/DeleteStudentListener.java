@@ -1,7 +1,6 @@
 package tableListener;
 
-import studentTable.DeleteStudentDialog;
-import studentTable.TableWithPaging;
+import studentTable.dialog.DeleteStudentDialog;
 import tableController.TableController;
 
 import javax.swing.*;

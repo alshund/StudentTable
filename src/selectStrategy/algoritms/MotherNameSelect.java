@@ -4,7 +4,7 @@ import selectStrategy.DataReader;
 import selectStrategy.SelectStrategy;
 import strategy.SearchStrategy;
 import strategy.algoritms.motherNameSearch.*;
-import studentTable.SearchPanel;
+import studentTable.dialog.SearchPanel;
 
 /**
  * Created by shund on 03.05.2017.

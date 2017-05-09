@@ -18,66 +18,9 @@ public class StudentDataBase implements Observable {
     private List<Observer> observerList;
     private SearchStrategy searchStrategy;
 
-
     public StudentDataBase() {
         students = new ArrayList<Student>();
         observerList = new LinkedList<Observer>();
-    }
-
-    public void addStudent(Student student) {
-        students.add(student);
-        repaintPaging();
-    }
-
-    public List <Student> getPage(int currentPage, int recodesNumber) {
-        List<Student> page = new ArrayList<Student>();
-        int beginIndex = (currentPage - 1) * (recodesNumber);
-        int endIndex = beginIndex + (recodesNumber);
-        for (int studentIndex = beginIndex; studentIndex < endIndex; studentIndex++) {
-            if (studentIndex >= students.size()) {
-                break;
-            }
-            page.add(students.get(studentIndex));
-        }
-        return page;
-    }
-
-    public void changeRecodesAmount() {
-        refreshPaging();
-    }
-
-    public void changePage(int currentPage, int recodesAmount) {
-        updateData(getPage(currentPage, recodesAmount));
-    }
-
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public List<Student> search() {
-        List<Student> searchList = new ArrayList<Student>();
-        for (Student student : students) {
-            if (searchStrategy.execute(student)) {
-                searchList.add(student);
-            }
-        }
-        return searchList;
-    }
-
-    public void delete() {
-        Iterator<Student> studentIterator = students.iterator();
-        while (studentIterator.hasNext()) {
-            if (searchStrategy.execute(studentIterator.next())) {
-                studentIterator.remove();
-            }
-        }
-        repaintPaging();
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
-        createModel();
-        repaintPaging();
     }
 
     @Override
@@ -118,15 +61,71 @@ public class StudentDataBase implements Observable {
         }
     }
 
+    public void addStudent(Student student) {
+        students.add(student);
+        repaintPaging();
+    }
+
+    public void changeRecodesAmount() {
+        refreshPaging();
+    }
+
+    public void changePage(int currentPage, int recodesAmount) {
+        updateData(getPage(currentPage, recodesAmount));
+    }
+
+    public List <Student> getPage(int currentPage, int recodesNumber) {
+        List<Student> page = new ArrayList<Student>();
+        int beginIndex = (currentPage - 1) * (recodesNumber);
+        int endIndex = beginIndex + (recodesNumber);
+        for (int studentIndex = beginIndex; studentIndex < endIndex; studentIndex++) {
+            if (studentIndex >= students.size()) {
+                break;
+            }
+            page.add(students.get(studentIndex));
+        }
+        return page;
+    }
+
+    public List<Student> search() {
+        List<Student> searchList = new ArrayList<Student>();
+        for (Student student : students) {
+            if (searchStrategy.execute(student)) {
+                searchList.add(student);
+            }
+        }
+        return searchList;
+    }
+
+    public void delete() {
+        Iterator<Student> studentIterator = students.iterator();
+        while (studentIterator.hasNext()) {
+            if (searchStrategy.execute(studentIterator.next())) {
+                studentIterator.remove();
+            }
+        }
+        repaintPaging();
+    }
+
     public int getDataBaseSize() {
         return students.size();
     }
 
-    public void setSearchStrategy(SearchStrategy SearchStrategy) {
-        this.searchStrategy = SearchStrategy;
+    public List<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(List<Student> students) {
+        this.students = students;
+        createModel();
+        repaintPaging();
     }
 
     public SearchStrategy getSearchStrategy() {
         return searchStrategy;
+    }
+
+    public void setSearchStrategy(SearchStrategy SearchStrategy) {
+        this.searchStrategy = SearchStrategy;
     }
 }

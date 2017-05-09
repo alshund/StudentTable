@@ -1,26 +1,21 @@
 package studentTable;
 
+import constants.*;
+import constants.Window;
 import studentDataBase.StudentDataBase;
 import tableController.TableController;
 import tableListener.*;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.Frame;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * Created by shund on 09.04.2017.
  */
 public class MainWindow {
-    public static final int FILE_MENU = 0;
-    public static final int EDIT_MENU = 1;
-    public static final int NEW_FILE = 0;
-    public static final int OPEN_FIE = 1;
-    public static final int SAVE_FILE = 2;
-    public static final int EXIT_FILE = 3;
-    public static final int ADD_EDIT = 0;
-    public static final int SEARCH_EDIT = 1;
-    public static final int DELETE_EDIT = 2;
-
     private JFrame mainFrame;
     private JMenuBar menuBar;
     private JToolBar toolBar;
@@ -43,7 +38,7 @@ public class MainWindow {
         toolBar = addJToolBar();
         mainFrame.add(toolBar, BorderLayout.NORTH);
 
-        mainFrame.add(tableWithPaging, BorderLayout.CENTER);
+        mainFrame.add(tableWithPaging.getTableWithPaging(), BorderLayout.CENTER);
 
         addListener();
 
@@ -115,8 +110,8 @@ public class MainWindow {
         setIcon(delete, "delete.png");
 
         add.addActionListener(new AdditionStudentListener(mainFrame, tableController));
-//        search.addActionListener(new SearchStudentListener(mainFrame, tableWithPaging));
-//        delete.addActionListener(new DeleteStudentListener(mainFrame, tableWithPaging));
+        search.addActionListener(new SearchStudentListener(mainFrame, tableController));
+        delete.addActionListener(new DeleteStudentListener(mainFrame, tableController));
 
         tool.add(add);
         tool.add(search);
@@ -133,40 +128,28 @@ public class MainWindow {
 
     private void addListener() {
         NewTableListener newTableListener = new NewTableListener(menuBar, toolBar, tableWithPaging, tableController);
-        menuBar.getMenu(FILE_MENU).getItem(NEW_FILE).addActionListener(newTableListener);
+        menuBar.getMenu(Window.FILE_MENU).getItem(Window.NEW_FILE).addActionListener(newTableListener);
 
         OpenListener openListener = new OpenListener(menuBar, toolBar, tableController);
-        menuBar.getMenu(FILE_MENU).getItem(OPEN_FIE).addActionListener(openListener);
-//
+        menuBar.getMenu(Window.FILE_MENU).getItem(Window.OPEN_FIE).addActionListener(openListener);
+
         SaveListener saveListener = new SaveListener(tableController);
-        menuBar.getMenu(FILE_MENU).getItem(SAVE_FILE).addActionListener(saveListener);
-//
-//        menuBar.getMenu(FILE_MENU).getItem(EXIT_FILE).addActionListener(new ActionListener() {
-//            @Override
-//            public void actionPerformed(ActionEvent event) {
-//                System.exit(0);
-//            }
-//        });
+        menuBar.getMenu(Window.FILE_MENU).getItem(Window.SAVE_FILE).addActionListener(saveListener);
+
+        menuBar.getMenu(Window.FILE_MENU).getItem(Window.EXIT_FILE).addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                System.exit(0);
+            }
+        });
 
         AdditionStudentListener additionStudentListener = new AdditionStudentListener(mainFrame, tableController);
-        menuBar.getMenu(MainWindow.EDIT_MENU).getItem(MainWindow.ADD_EDIT).addActionListener(additionStudentListener);
+        menuBar.getMenu(Window.EDIT_MENU).getItem(Window.ADD_EDIT).addActionListener(additionStudentListener);
 
         SearchStudentListener searchStudentListener = new SearchStudentListener(mainFrame, tableController);
-        menuBar.getMenu(MainWindow.EDIT_MENU).getItem(MainWindow.SEARCH_EDIT).addActionListener(searchStudentListener);
+        menuBar.getMenu(Window.EDIT_MENU).getItem(Window.SEARCH_EDIT).addActionListener(searchStudentListener);
 
         DeleteStudentListener deleteStudentListener = new DeleteStudentListener(mainFrame, tableController);
-        menuBar.getMenu(MainWindow.EDIT_MENU).getItem(MainWindow.DELETE_EDIT).addActionListener(deleteStudentListener);
-    }
-
-    public static void main(String[] arg) {
-        StudentDataBase studentDataBase = new StudentDataBase();
-        TableController tableController = new TableController(studentDataBase);
-        new MainWindow(tableController);
-       /* java.util.List<Integer> y = new ArrayList<>(Arrays.asList(2,6,8,-3,7,9));
-        java.util.List<Integer> z = y.stream().filter(element -> element < 5).collect(Collectors.toList());
-        System.out.println(z);
-        z = z.stream().map(e -> e + 1).collect(Collectors.toList());
-        System.out.println(z);
-*/
+        menuBar.getMenu(Window.EDIT_MENU).getItem(Window.DELETE_EDIT).addActionListener(deleteStudentListener);
     }
 }

@@ -1,5 +1,6 @@
 package tableListener;
 
+import constants.Window;
 import studentDataBase.Student;
 import studentDataBase.StudentDataBase;
 import studentTable.MainWindow;
@@ -33,11 +34,11 @@ public class NewTableListener implements ActionListener {
         if (!toolBar.isVisible()) {
             toolBar.setVisible(true);
 
-            menuBar.getMenu(MainWindow.FILE_MENU).getItem(MainWindow.SAVE_FILE).setEnabled(true);
+            menuBar.getMenu(Window.FILE_MENU).getItem(Window.SAVE_FILE).setEnabled(true);
 
-            menuBar.getMenu(MainWindow.EDIT_MENU).getItem(MainWindow.ADD_EDIT).setEnabled(true);
-            menuBar.getMenu(MainWindow.EDIT_MENU).getItem(MainWindow.SEARCH_EDIT).setEnabled(true);
-            menuBar.getMenu(MainWindow.EDIT_MENU).getItem(MainWindow.DELETE_EDIT).setEnabled(true);
+            menuBar.getMenu(Window.EDIT_MENU).getItem(Window.ADD_EDIT).setEnabled(true);
+            menuBar.getMenu(Window.EDIT_MENU).getItem(Window.SEARCH_EDIT).setEnabled(true);
+            menuBar.getMenu(Window.EDIT_MENU).getItem(Window.DELETE_EDIT).setEnabled(true);
         }
 
         TableModel tableModel = new TableModel(new ArrayList<Student>());

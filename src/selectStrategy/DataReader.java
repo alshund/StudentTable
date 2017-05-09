@@ -1,6 +1,6 @@
 package selectStrategy;
 
-import studentTable.SearchPanel;
+import studentTable.dialog.SearchPanel;
 
 import javax.swing.*;
 import java.util.regex.Pattern;

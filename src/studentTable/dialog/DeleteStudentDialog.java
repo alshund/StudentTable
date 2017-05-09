@@ -1,4 +1,4 @@
-package studentTable;
+package studentTable.dialog;
 
 import selectStrategy.SelectStrategy;
 import selectStrategy.algoritms.*;
@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.regex.Pattern;
 
 /**
  * Created by shund on 25.04.2017.

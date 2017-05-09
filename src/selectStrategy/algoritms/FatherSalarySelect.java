@@ -6,7 +6,7 @@ import strategy.SearchStrategy;
 import strategy.algoritms.fatherSalarySearch.FatherLwSearch;
 import strategy.algoritms.fatherSalarySearch.FatherLwUpSearch;
 import strategy.algoritms.fatherSalarySearch.FatherUpSearch;
-import studentTable.SearchPanel;
+import studentTable.dialog.SearchPanel;
 
 /**
  * Created by shund on 03.05.2017.

@@ -3,9 +3,8 @@ package selectStrategy.algoritms;
 import selectStrategy.DataReader;
 import selectStrategy.SelectStrategy;
 import strategy.SearchStrategy;
-import strategy.algoritms.brotherAmountSearch.BrotherAmountSearch;
 import strategy.algoritms.sisterAmountSearch.SisterAmountSearch;
-import studentTable.SearchPanel;
+import studentTable.dialog.SearchPanel;
 
 /**
  * Created by shund on 03.05.2017.

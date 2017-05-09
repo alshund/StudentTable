@@ -1,5 +1,6 @@
 package studentTable;
 
+import constants.Table;
 import observe.Observer;
 import studentDataBase.Student;
 import tableController.TableController;
@@ -16,16 +17,18 @@ import java.util.List;
 /**
  * Created by shund on 11.04.2017.
  */
-public class TableWithPaging extends JComponent implements Observer {
-    public static final int FIRST_PAGE = 1;
-
+public class TableWithPaging implements Observer {
+    public static final int SPINNER_WIDTH = 50;
+    public static final int SPINNER_HEIGHT = 32;
     private TableController tableController;
 
+    private JPanel tableWithPaging;
     private JTable table;
     private TableModel tableModel;
 
     private SpinnerNumberModel spmRecodesChanger;
     private SpinnerNumberModel spmPageChanger;
+    private JLabel lbPageRecodes;
 
     private JToolBar toolBar;
 
@@ -39,17 +42,19 @@ public class TableWithPaging extends JComponent implements Observer {
     public TableWithPaging(TableController tableController) {
         this.tableController = tableController;
         tableController.getStudentDataBase().addTable(this);
-        setLayout(new BorderLayout());
+
+        tableWithPaging = new JPanel();
+        tableWithPaging.setLayout(new BorderLayout());
 
         table = new JTable();
         JScrollPane scrollPane = new JScrollPane(table);
-        add(scrollPane, BorderLayout.CENTER);
+        tableWithPaging.add(scrollPane, BorderLayout.CENTER);
 
         toolBar = new JToolBar();
 
         toolBar.setLayout(new BorderLayout());
         setPaging(toolBar);
-        add(toolBar, BorderLayout.SOUTH);
+        tableWithPaging.add(toolBar, BorderLayout.SOUTH);
         addListeners();
     }
 
@@ -64,7 +69,7 @@ public class TableWithPaging extends JComponent implements Observer {
         getBtFirstPage().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                setCurrentPage(FIRST_PAGE);
+                setCurrentPage(Table.FIRST_PAGE);
                 tableController.changePage(getCurrentPage(), getRecodesAmount());
             }
         });
@@ -72,7 +77,7 @@ public class TableWithPaging extends JComponent implements Observer {
         getBtPreviousPage().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                if (getCurrentPage() != FIRST_PAGE) {
+                if (getCurrentPage() != Table.FIRST_PAGE) {
                     int previousPage = getCurrentPage() - 1;
                     setCurrentPage(previousPage);
                 }
@@ -116,6 +121,7 @@ public class TableWithPaging extends JComponent implements Observer {
             setPagesAmount(pagesAmount);
             setCurrentPage(pagesAmount);
         }
+        lbPageRecodes.setText(String.valueOf(getPagesAmount()));
         tableController.changePage(getCurrentPage(), getRecodesAmount());
     }
 
@@ -128,6 +134,7 @@ public class TableWithPaging extends JComponent implements Observer {
         if (getCurrentPage() > getPagesAmount()) {
             setCurrentPage(getPagesAmount());
         }
+        lbPageRecodes.setText(String.valueOf(getPagesAmount()));
         tableController.changePage(getCurrentPage(), getRecodesAmount());
     }
 
@@ -146,7 +153,7 @@ public class TableWithPaging extends JComponent implements Observer {
 
 
     private boolean isNewPage(int dataBaseSize) {
-        int pagesAmount = getPagesAmount();
+//        int pagesAmount = getPagesAmount();
         int recodesAmount = getRecodesAmount();
         return recodesAmount <= dataBaseSize;
 //        return (pagesAmount - 1) * recodesAmount + recodesAmount <= dataBaseSize;
@@ -163,16 +170,21 @@ public class TableWithPaging extends JComponent implements Observer {
         spmRecodesChanger = new SpinnerNumberModel(5, 1, null, 1);
         JSpinner spRecodesNumber = new JSpinner(spmRecodesChanger);
         Dimension dimensionRN = spRecodesNumber.getPreferredSize();
-        dimensionRN.width = 50;
-        dimensionRN.height = 32;
+        dimensionRN.width = SPINNER_WIDTH;
+        dimensionRN.height = SPINNER_HEIGHT;
         spRecodesNumber.setPreferredSize(dimensionRN);
 
         spmPageChanger = new SpinnerNumberModel(1, 1, 1, 1);
         JSpinner spPageChange = new JSpinner(spmPageChanger);
         Dimension dimensionPC = spRecodesNumber.getPreferredSize();
-        dimensionPC.width = 50;
-        dimensionPC.height = 32;
+        dimensionPC.width = SPINNER_WIDTH;
+        dimensionPC.height = SPINNER_HEIGHT;
         spPageChange.setPreferredSize(dimensionRN);
+
+        lbPageRecodes = new JLabel("1");
+        Dimension dimensionPR = lbPageRecodes.getPreferredSize();
+        dimensionPR.width = SPINNER_WIDTH;
+        dimensionPR.height = SPINNER_HEIGHT;
 
         btChangeRecodesAmount = new JButton("Change recodes");
         setIcon(btChangeRecodesAmount, "changeRecodesAmount.png");
@@ -207,6 +219,7 @@ public class TableWithPaging extends JComponent implements Observer {
 
         pageChangerPanel.add(btChangePagesAmount);
         pageChangerPanel.add(spPageChange);
+        pageChangerPanel.add(lbPageRecodes);
 
         toolBar.add(recodesChangerPanel, BorderLayout.WEST);
         toolBar.add(pageStatePanel, BorderLayout.CENTER);
@@ -224,6 +237,14 @@ public class TableWithPaging extends JComponent implements Observer {
                 GridBagConstraints.CENTER, GridBagConstraints.BOTH,
                 insets, 0, 0);
         container.add(component, gbc);
+    }
+
+    public JPanel getTableWithPaging() {
+        return tableWithPaging;
+    }
+
+    public void setTableWithPaging(JPanel tableWithPaging) {
+        this.tableWithPaging = tableWithPaging;
     }
 
     public JTable getTable() {
@@ -327,7 +348,5 @@ public class TableWithPaging extends JComponent implements Observer {
     public void setPagesAmount(int pagesAmount) {
         spmPageChanger.setMaximum(pagesAmount);
     }
-
-
 
 }

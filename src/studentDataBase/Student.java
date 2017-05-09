@@ -1,5 +1,7 @@
 package studentDataBase;
 
+import constants.Table;
+
 /**
  * Created by shund on 09.04.2017.
  */
@@ -17,51 +19,26 @@ public class Student {
         mother = new Mother();
     }
 
-
     public Object getField(int columnIndex) {
-        if (columnIndex == 0) {
+        if (columnIndex == Table.STUDENT_NAME_COLUMN) {
             String studentFullName = surname + " " + firstName + " " + patronymic;
             return studentFullName;
-        } else if (columnIndex == 1) {
+        } else if (columnIndex == Table.FATHER_NAME_COLUMN) {
             String fatherFullName = father.getSurname() + " " + father.getFirstName() + " " + father.getPatronymic();
             return fatherFullName;
-        } else if (columnIndex == 2) {
+        } else if (columnIndex == Table.FATHER_SALARY_COLUMN) {
             return father.getSalary();
-        } else if (columnIndex == 3) {
+        } else if (columnIndex == Table.MOTHER_NAME_COLUMN) {
             String motherFullName = mother.getSurname() + " " + mother.getFirstName() + " " + mother.getPatronymic();
             return motherFullName;
-        } else if (columnIndex == 4) {
+        } else if (columnIndex == Table.MOTHER_SALARY_COLUMN) {
             return mother.getSalary();
-        } else if (columnIndex == 5) {
+        } else if (columnIndex == Table.BROTHER_AMOUNT_COLUMN) {
             return brothersAmount;
-        } else if (columnIndex == 6) {
+        } else if (columnIndex == Table.SISTER_AMOUNT_COLUMN) {
             return sistersAmount;
         } else {
             return null;
-        }
-    }
-
-    public void setField(int columnIndex, Object aValue) {
-        if (columnIndex == 0) {
-            setSurname((String) aValue);
-            setFirstName((String) aValue);
-            setPatronymic((String) aValue);
-        } else if (columnIndex == 1) {
-            father.setSurname((String) aValue);
-            father.setFirstName((String) aValue);
-            father.setPatronymic((String) aValue);
-        } else if (columnIndex == 2) {
-            father.setSalary((Double) aValue);
-        } else if (columnIndex == 3) {
-            mother.setSurname((String) aValue);
-            mother.setFirstName((String) aValue);
-            mother.setPatronymic((String) aValue);
-        } else if (columnIndex == 4) {
-            mother.setSalary((Double) aValue);
-        } else if (columnIndex == 5) {
-            setBrothersAmount((Integer) aValue);
-        } else if (columnIndex == 6) {
-            setBrothersAmount((Integer) aValue);
         }
     }
 

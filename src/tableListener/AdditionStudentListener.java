@@ -1,7 +1,6 @@
 package tableListener;
 
-import studentTable.AdditionStudentDialog;
-import studentTable.TableWithPaging;
+import studentTable.dialog.AdditionStudentDialog;
 import tableController.TableController;
 
 import javax.swing.*;

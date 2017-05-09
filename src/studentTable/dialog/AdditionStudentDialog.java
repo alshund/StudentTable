@@ -1,4 +1,4 @@
-package studentTable;
+package studentTable.dialog;
 
 import studentDataBase.Father;
 import studentDataBase.Mother;

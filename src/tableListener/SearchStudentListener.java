@@ -1,7 +1,6 @@
 package tableListener;
 
-import studentTable.SearchStudentDialog;
-import studentTable.TableWithPaging;
+import studentTable.dialog.SearchStudentDialog;
 import tableController.TableController;
 
 import javax.swing.*;
